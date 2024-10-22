@@ -57,10 +57,10 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Login</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ url_for ('login')}}" class="dropdown-item">Admin</a>
-                        <a href="{{ url_for ('login')}}" class="dropdown-item">Teacher</a>
-                        <a href="{{ url_for ('login')}}" class="dropdown-item">Bursal</a>
-                        <a href="{{ url_for ('login')}}" class="dropdown-item">Student</a>
+                        <a href="{% url 'home' %}" class="dropdown-item">Admin</a>
+                        <a href="{% url 'home' %}" class="dropdown-item">Teacher</a>
+                        <a href="{% url 'home' %}" class="dropdown-item">Bursal</a>
+                        <a href="{% url 'home' %}" class="dropdown-item">Student</a>
                     </div>
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
