@@ -37,7 +37,7 @@
 <body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-        <a href="{{ url_for('home') }}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <a href="{% url'home' %}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i> Anyi's College</h2>
         </a>
     </nav>
@@ -47,7 +47,7 @@
     <!-- Register Start -->
     <div class="enrol">
         <h1>Enrol</h1>
-        <form action="{{ url_for('user_register') }}" method="post" autocomplete="off">
+        <form action="{% url 'enrol' %}" method="post" autocomplete="off">
             <label for="student">
                 <i class="fa fa-user"></i>
             </label>
