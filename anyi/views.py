@@ -34,3 +34,6 @@ def teacher_login(request):
 def enrol(request):
     return render(request, 'anyi/user_register.html')
 
+def user_enrol(request):
+    return render(request, 'anyi/user_reg.html')
+
