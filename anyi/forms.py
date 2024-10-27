@@ -1,9 +1,17 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from .models import Role, Admin, Bursal, Teacher
 
-class AdminRegistrationForm(forms.ModelForm):
+class UserForm(forms.Form):
+    fname = forms.CharField(max_length=100)
+    sname = forms.CharField(max_length=100)
+    username = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    phonenum = forms.CharField(max_length=15)
     password = forms.CharField(widget=forms.PasswordInput)
+    role = forms.ModelChoiceField(queryset=Role.objects.all(), empty_label="Select Role")
 
-    class Meta:
-        model = User
-        fields = ['username', 'password', 'email']
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(widget=forms.PasswordInput)
