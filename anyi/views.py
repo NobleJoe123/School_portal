@@ -53,8 +53,8 @@ def bursal_dashboard(request):
 def teacher_dashboard(request):
     return render(request, 'anyi/teacher_dashboard.html')
 
-def teacher_dashboard(request):
-    return render(request, 'anyi/teacher_dashboard.html')
+def admin_dashboard(request):
+    return render(request, 'anyi/admin_dashboard.html')
 
 
 
