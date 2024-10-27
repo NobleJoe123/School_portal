@@ -16,11 +16,11 @@ urlpatterns = [
     path('admin_login/', admin_login, name='admin_login'),
     path('student_login/', student_login, name='student_login'),
     path('bursal_login/', bursal_login, name='bursal_login'),
-    path('teacher_login/', teacher_dashboard, name='teacher_dashboard'),
+    path('teacher_login/', teacher_login, name='teacher_login'),
     path('admin_dashboard/', admin_dashboard, name='admin_dashboard'),
     path('student_dashboard/', student_dashboard, name='student_dashboard'),
     path('bursal_dashboard/', bursal_dashboard, name='bursal_dashboard'),
-    path('teacher_dashboard/', teacher_login, name='teacher_dashboard'),
+    path('teacher_dashboard/', teacher_dashboard, name='teacher_dashboard'),
     path('enrol/', enrol, name='enrol'),
     path('user_enrol/', user_enrol, name='user_enrol'),
 
