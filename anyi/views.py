@@ -44,16 +44,19 @@ def admin_login(request):
 
     return render(request, 'anyi/admin_login.html', {'form': form})
 
-
+@login_required
 def student_dashboard(request):
     return render(request, 'anyi/login.html')
 
+@login_required
 def bursal_dashboard(request):
     return render(request, 'anyi/bursal_dashboard.html')
 
+@login_required
 def teacher_dashboard(request):
     return render(request, 'anyi/teacher_dashboard.html')
 
+@login_required
 def admin_dashboard(request):
     return render(request, 'anyi/admin_dashboard.html')
 
