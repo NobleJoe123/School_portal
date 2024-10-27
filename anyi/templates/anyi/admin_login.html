@@ -48,6 +48,7 @@
     <div class="login">
         <h1>Login</h1>
         <form action="{% url 'admin_login' %}" method="post" autocomplete="off">
+            {% csrf_token %}
             <label for="username">
                 <i class="fa fa-user"></i>
             </label>

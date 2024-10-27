@@ -58,6 +58,8 @@ def teacher_dashboard(request):
 
 @login_required
 def admin_dashboard(request):
+    if not Admin.objects.filter(user=request.user).exists():
+        return redirect('admin_login')
     return render(request, 'anyi/admin_dashboard.html')
 
 
