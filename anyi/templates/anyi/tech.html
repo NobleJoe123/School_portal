@@ -69,7 +69,7 @@
            <div class="main-content"> 
                <!--Home Section-->
                <section class="home section active" id="home">
-                <div class="card-one"><a href="{{ url_for('study')}}">
+                <div class="card-one"><a href="{% url 'home' %}">
                   <div class="contain">
                   <h1>Student</h1>
                   <h2>{{ student_count }}</h2>
@@ -84,7 +84,7 @@
                   </a>
                 </div>
                 
-                <div class="card-three"><a href="{{ url_for('assign')}}">
+                <div class="card-three"><a href="{% url 'home' %}">
                   <div class="contain">
                   <h1>Assignment</h1>
                   </div>
@@ -104,11 +104,12 @@
                 </div>
 
                 <table id="myTable">
-                  {% for row in data %}
+                  {% for person in data %}
                   <tr>
-                    <td>{{ row[0] }}</td>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</a></td>
+                    <td>{{ person.id }}</td>
+                    <td>{{ person.fname }}</td>
+                    <td>{{ person.email }}</td>
+                    <td>+234{{ person.phonenum }}</td>
                     <td style="font-size: medium;"> <a  href="">View</a></td>
                   </tr>
                   {% endfor %}
@@ -140,7 +141,7 @@
 <div class="lightbox">
   <div class="lightbox-content">
     <div class="lightbox-close">&times;</div>
-    <img src="images/portfolio/1a.png" class="lightbox-img" onclick="nextItem()">
+    <img src="{% static 'anyi/images/portfolio/1a.png' %}" class="lightbox-img" onclick="nextItem()">
     <div class="lightbox-caption">
       <div class="caption-text">Web Design</div>
       <div class="caption-counter"></div>
