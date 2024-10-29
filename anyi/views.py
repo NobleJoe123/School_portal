@@ -21,6 +21,9 @@ def courses (request):
 def admin_register(request):
     return render(request, 'anyi/admin_register.html')
 
+def teacher_board(request):
+    return render(request, 'bursal_dashboard.html')
+
 def admin_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
