@@ -55,7 +55,7 @@ def bursal_dashboard(request):
 
 # @login_required
 def teacher_dashboard(request):
-    return render(request, 'anyi/teacher.html')
+    return render(request, 'anyi/tech.html')
 
 # @login_required
 def admin_dashboard(request):
