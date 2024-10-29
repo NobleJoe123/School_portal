@@ -27,21 +27,19 @@ def admin_login(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                # Check user role and redirect
-                if Admin.objects.filter(user=user).exists():
-                    return redirect('admin_dashboard')
-                elif Bursal.objects.filter(user=user).exists():
-                    return redirect('bursal_dashboard')
-                elif Teacher.objects.filter(user=user).exists():
-                    return redirect('teacher_dashboard')
-            else:
-                form.add_error(None, "Invalid username or password")
+            
+            # Check if user is in Admin table
+            admin_user = Admin.objects.filter(username=username, password=password).first()
+            if admin_user:
+                # Authenticate and log in admin user
+                request.session['role'] = 'Admin'  # Store role in session
+                request.session['user_id'] = admin_user.id  # Store user ID for later use
+                return redirect('admin_dashboard')  # Redirect to admin dashboard
+            
+            # messages = 'Invalid username or password'
     else:
         form = LoginForm()
-
+    
     return render(request, 'anyi/admin_login.html', {'form': form})
 
 @login_required
@@ -49,18 +47,19 @@ def student_dashboard(request):
     return render(request, 'anyi/login.html')
 
 @login_required
-def bursal_dashboard(request):
+def bursal_dashboard(request):       
     return render(request, 'anyi/bursal_dashboard.html')
 
-@login_required
+# @login_required
 def teacher_dashboard(request):
-    return render(request, 'anyi/teacher_dashboard.html')
+    return render(request, 'anyi/teacher.html')
 
-@login_required
+# @login_required
 def admin_dashboard(request):
-    if not Admin.objects.filter(user=request.user).exists():
-        return redirect('admin_login')
-    return render(request, 'anyi/admin_dashboard.html')
+    people = Admin.objects.all()[:10]
+    # if not Admin.objects.filter(user=request.user).exists():
+    #     return redirect('admin_login')
+    return render(request, 'anyi/admin_dashboard.html', {'people': people})
 
 
 
@@ -68,14 +67,41 @@ def student_login(request):
     return render(request, 'anyi/login.html')
 
 def bursal_login(request):
-    return render(request, 'anyi/bursal_login.html')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            
+            bursal_user = Bursal.objects.filter(username=username, password=password).first()
+            if bursal_user:
+                request.session['role'] = 'Bursal'
+                request.session['user_id'] = bursal_user.id
+                return redirect('bursal_dashboard')  # Redirect to bursal dashboard
+    else:
+        form = LoginForm()
+        
+        return render(request, 'anyi/bursal_login.html', {'form':form})
+        
 
 def teacher_login(request):
-    return render(request, 'anyi/teacher_login.html')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            teacher_user = Teacher.objects.filter(username=username, password=password).first()
+            if teacher_user:
+                request.session['role'] = 'Teacher'
+                request.session['user_id'] = teacher_user.id
+                return redirect('teacher_dashboard')  # Redirect to teacher dashboard
+    else:
+        form = LoginForm()
+           
+    return render(request, 'anyi/teacher_login.html', {'form':form})
 
-
+# enrol form
 def enrol(request):
-    
     return render(request, 'anyi/user_register.html')
 
 def user_enrol(request):
