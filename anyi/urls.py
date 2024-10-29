@@ -24,6 +24,10 @@ urlpatterns = [
     path('teacher_dashboard/', views.teacher_dashboard, name='teacher_dashboard'),
     path('enrol/', views.enrol, name='enrol'),
     path('user_enrol/', views.user_enrol, name='user_enrol'),
+    # path('404/', views.custom_404_view, name='404'),
+    
 
    
-]
+] 
+
+# handler404 = "anyi.views.custom_404_view"
