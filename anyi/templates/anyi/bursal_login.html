@@ -10,7 +10,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{& static 'anyi/images/favicon.ico' %}" rel="icon">
+    <link href="{% static 'anyi/images/favicon.ico' %}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +31,7 @@
     <link href="{% static 'anyi/css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{% static 'anyi/css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'anyi/css/main.css' %} " rel="stylesheet">
 </head>
 
 <body>
@@ -48,14 +48,8 @@
     <div class="login">
         <h1>Login</h1>
         <form action="{% url 'bursal_login' %}" method="post" autocomplete="off">
-            <label for="username">
-                <i class="fa fa-user"></i>
-            </label>
-            <input type="text" name="username" placeholder="Username" id="username" required>
-            <label for="password">
-                <i class="fa fa-lock"></i>
-            </label>
-            <input type="password" name="password" placeholder="Password" id="password" required>
+            {% csrf_token %}
+            {{ form.as_p }}
             <p style="text-align: center;">Didn't have an account?<a href="{% url 'admin_register' %}"> Register</a> </p>
             <div class="msg">{{ msg }}</div>
             <button type="submit" id="demo">Submit</button>
