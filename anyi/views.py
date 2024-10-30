@@ -42,16 +42,17 @@ def admin_login(request):
             # messages = 'Invalid username or password'
     else:
         form = LoginForm()
-    
-    return render(request, 'anyi/admin_login.html', {'form': form})
+        
+        return render(request, 'anyi/admin_login.html', {'form': form})
 
 @login_required
 def student_dashboard(request):
     return render(request, 'anyi/login.html')
 
-@login_required
-def bursal_dashboard(request):       
-    return render(request, 'anyi/bursal_dashboard.html')
+# @login_required
+def bursal_dashboard(request):
+    data = Teacher.objects.all()[:10]       
+    return render(request, 'anyi/bursal_dashboard.html', {'data':data})
 
 # @login_required
 def teacher_dashboard(request):
@@ -59,7 +60,7 @@ def teacher_dashboard(request):
 
     return render(request, 'anyi/tech.html', {'data':data})
 
-# @login_required
+@login_required
 def admin_dashboard(request):
     people = Admin.objects.all()[:10]
     # if not Admin.objects.filter(user=request.user).exists():
@@ -86,7 +87,7 @@ def bursal_login(request):
     else:
         form = LoginForm()
         
-        return render(request, 'anyi/bursal_login.html', {'form':form})
+    return render(request, 'anyi/bursal_login.html', {'form':form})
         
 
 def teacher_login(request):
@@ -102,7 +103,7 @@ def teacher_login(request):
                 return redirect('teacher_dashboard')  # Redirect to teacher dashboard
     else:
         form = LoginForm()
-           
+        
     return render(request, 'anyi/teacher_login.html', {'form':form})
 
 # enrol form
