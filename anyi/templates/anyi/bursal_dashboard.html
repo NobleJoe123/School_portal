@@ -44,12 +44,12 @@
                </div>
                <!--Nav-->
                <ul class="nav">
-                  <li><a href="{% url'admin'%}"><i class="fa fa-credit-card"> </i> School Fees</a></li>
-                  <li><a href="{% url'teacher'%}"><i class="fa fa-subway"> </i> Excursion</a></li>
-                  <li><a href="{% url'student'%}"><i class="fa fa-stethoscope"> </i> Pratical</a></li>
+                  <li><a href="{% url 'admin_dashboard'%}"><i class="fa fa-credit-card"> </i> School Fees</a></li>
+                  <li><a href="{% url 'teacher_dashboard'%}"><i class="fa fa-subway"> </i> Excursion</a></li>
+                  <li><a href="{% url 'home'%}"><i class="fa fa-stethoscope"> </i> Pratical</a></li>
                   <li><a href="#portfolio"><i class="fa fa-calendar"> </i> Special Event</a></li>
                   <li><a href="#blog"><i class="fa fa-users"> </i> Uniform/Sport Wear</a></li>
-                  <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
+                  <li><a href="{% url 'home' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
                </ul>
                <!--Copyright-->
                <div class="copyright-text" style="color: #0dcaf0;">
@@ -69,7 +69,7 @@
                   </a>   
                 </div>
 
-                <div class="card-two"><a href="{% url 'std2') %">
+                <div class="card-two"><a href="{% url 'std2' %}">
                   <div class="contain">
                   <h1>JSS2</h1>
                   <h2>{{ std2_count }}</h2>
@@ -77,7 +77,7 @@
                   </a>
                 </div>
                 
-                <div class="card-three"><a href="{% url 'std3') %">
+                <div class="card-three"><a href="{% url 'std3' %}">
                   <div class="contain">
                   <h1>JSS3</h1>
                   <h2>{{ std3_count }}</h2>
@@ -118,16 +118,16 @@
                 <input type="text" id="myInput" onkeyup="myFunction()" class="fa fa-search-icon" placeholder="Search for names..">
                 </div>
 
-                <table id="myTable">
-                  <!-- {% for row in data %}
+                <!-- <table id="myTable">
+                  {% for row in data %}
                   <tr>
                     <td>{{ row[0] }}</td>
                     <td>{{ row[1] }}</td>
                     <td>{{ row[2] }}</a></td>
                     <td style="font-size: medium;"><a  href="">Paid</a></td>
                   </tr>
-                  {% endfor %} -->
-                </table>
+                  {% endfor %}
+                </table> -->
 
                 <div id="hiddenText" style="display: none;">
                   <form action="/upload" method="post" enctype="multipart/form-data">
@@ -155,7 +155,7 @@
 <div class="lightbox">
   <div class="lightbox-content">
     <div class="lightbox-close">&times;</div>
-    <img src="images/portfolio/1a.png" class="lightbox-img" onclick="nextItem()">
+    <img src="{% static 'anyi/images/portfolio/1a.png'%}" class="lightbox-img" onclick="nextItem()">
     <div class="lightbox-caption">
       <div class="caption-text">Web Design</div>
       <div class="caption-counter"></div>
