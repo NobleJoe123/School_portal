@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from .forms import UserForm, LoginForm
+from .forms import UserForm, LoginForm, StudentForm
 from django.contrib import messages
-from .models import Role, Admin, Bursal, Teacher
+from .models import Role, Admin, Bursal, Teacher, jss1, jss2, jss3, ss1, ss2, ss3
 
 # Create your views here.
 
@@ -45,7 +45,7 @@ def admin_login(request):
         
         return render(request, 'anyi/admin_login.html', {'form': form})
 
-@login_required
+# @login_required
 def student_dashboard(request):
     return render(request, 'anyi/login.html')
 
@@ -60,7 +60,7 @@ def teacher_dashboard(request):
 
     return render(request, 'anyi/tech.html', {'data':data})
 
-@login_required
+# @login_required
 def admin_dashboard(request):
     people = Admin.objects.all()[:10]
     # if not Admin.objects.filter(user=request.user).exists():
@@ -69,8 +69,40 @@ def admin_dashboard(request):
 
 
 
+
+
 def student_login(request):
-    return render(request, 'anyi/login.html')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            student_models = [jss1, jss2, jss3, ss1, ss2, ss3]
+            student = None
+
+            for model in student_models:
+                try:
+                    student = model.objects.get(username=username)
+                    if student.password == password:  # Simple password check
+                        request.session['user_id'] = student.id
+                        request.session['role'] = model.__name__.lower()  # Store model name as role
+                        messages.success(request, 'Logged in successfully!')
+                        return redirect('student_dashboard')  # Redirect based on role
+                    else:
+                        messages.error(request, 'Invalid password!')
+                        return render(request, 'members/login.html', {'form': form})
+                except model.DoesNotExist:
+                    continue  # Move to the next model if the username isn't found
+
+            # If we reach here, the user was not found in any model
+            messages.error(request, 'Invalid username!')
+    else:
+        form = LoginForm()
+
+    return render(request, 'anyi/login.html', {'form': form})
+
+
 
 def bursal_login(request):
     if request.method == 'POST':
@@ -144,3 +176,13 @@ def user_enrol(request):
 # def custom_404_view(request, exception):
 #     return render(request, 'anyi/404.html', status=404)
 
+def user_reg(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save data to the appropriate model
+            return redirect('student_login')  # Redirect to a success page or any other view
+    else:
+        form = StudentForm()
+
+    return render(request, 'anyi/user_register.html', {'form': form})
