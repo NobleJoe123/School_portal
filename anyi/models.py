@@ -45,3 +45,135 @@ class Role(models.Model):
 
     def __str__(self):
         return self.role_name
+    
+
+
+class jss1(models.Model):
+    firstname = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
+    middlename = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    phonenum = models.CharField(max_length=15)
+    password = models.CharField(max_length=255)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    lga = models.CharField(max_length=100)
+    dob = models.DateField()
+    guardianname = models.CharField(max_length=100)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"jss1: {self.username}"
+    
+
+class jss2(models.Model):
+    firstname = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
+    middlename = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    phonenum = models.CharField(max_length=15)
+    password = models.CharField(max_length=255)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    lga = models.CharField(max_length=100)
+    dob = models.DateField()
+    guardianname = models.CharField(max_length=100)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"jss2: {self.username}"
+    
+class jss3(models.Model):
+    firstname = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
+    middlename = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    phonenum = models.CharField(max_length=15)
+    password = models.CharField(max_length=255)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    lga = models.CharField(max_length=100)
+    dob = models.DateField()
+    guardianname = models.CharField(max_length=100)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"jss3: {self.username}"
+    
+class ss1(models.Model):
+    firstname = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
+    middlename = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    phonenum = models.CharField(max_length=15)
+    password = models.CharField(max_length=255)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    lga = models.CharField(max_length=100)
+    dob = models.DateField()
+    guardianname = models.CharField(max_length=100)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"ss1: {self.username}"
+    
+class ss1(models.Model):
+    firstname = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
+    middlename = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    phonenum = models.CharField(max_length=15)
+    password = models.CharField(max_length=255)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    lga = models.CharField(max_length=100)
+    dob = models.DateField()
+    guardianname = models.CharField(max_length=100)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"ss1: {self.username}"
+    
+class ss2(models.Model):
+    firstname = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
+    middlename = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    phonenum = models.CharField(max_length=15)
+    password = models.CharField(max_length=255)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    lga = models.CharField(max_length=100)
+    dob = models.DateField()
+    guardianname = models.CharField(max_length=100)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"ss2: {self.username}"
+    
+
+class ss3(models.Model):
+    firstname = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
+    middlename = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    phonenum = models.CharField(max_length=15)
+    password = models.CharField(max_length=255)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    lga = models.CharField(max_length=100)
+    dob = models.DateField()
+    guardianname = models.CharField(max_length=100)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"ss3: {self.username}"
+
+
