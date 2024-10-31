@@ -47,24 +47,9 @@
     <!-- Register Start -->
     <div class="enrol">
         <h1>Enrol</h1>
-        <form action="{% url 'enrol' %}" method="post" autocomplete="off">
-            <label for="student">
-                <i class="fa fa-user"></i>
-            </label>
-            <input type="text" name="student" placeholder="Student name" id="student" required>
-            <label for="parent">
-                <i class="fa fa-phone-alt"></i>
-            </label>
-            <input type="text" name="parent" placeholder="Parent mobile" id="parent" required>
-            <label for="former">
-                <i class="fa fa-graduation-cap"></i>
-            </label>
-            <input type="text" name="former" placeholder="Former class atten...." id="former" required>
-            <label for="address">
-                <i class="fa fa-globe"></i>
-            </label>
-            <input type="text" name="address" placeholder="Address" id="address" required>
-            <div class="msg">{{ msg }}</div>
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            {{ form.as_p }}
             <button type="submit" id="demo">Submit</button>
         </form>
 
@@ -73,8 +58,8 @@
     <!-- Register End -->
 
 
-     <!-- Footer Start -->
-     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
