@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,7 +64,7 @@
 
       <div class="profile">
         <img src="{% static 'anyi/assets/img/schoologo.png' %}" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="{{ url_for('index')}}">{{ session.Username }}</a></h1>
+        <h1 class="text-light"><a href="{% url 'home' %}">{{ username }}</a></h1>
         <div class="social-links mt-3 text-center">
           <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
           <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -79,14 +81,14 @@
           <li><a href="#" class="notification" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Exam</span><span class="badge">3</span></a></li>
           <li><a href="#" class="notification" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Test</span><span class="badge">2 </span></a></li>
           <li><a href="#" class="notification" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Assignment</span><span class="badge">3</span></a></li>
-          <li><a href="{% url 'result' %}" class="nav-link scrollto"><i class="bx bx-home"></i> <span>Result</span></a></li>
+          <li><a href="#" class="nav-link scrollto"><i class="bx bx-home"></i> <span>Result</span></a></li>
           <!-- <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li> -->
           <div class="container">
             <div class="dropdown">
               <button class="btn btn-default dropdown-toggle"  type="button" id="menu1" data-toggle="dropdown"><i class="bx bx-user"></i> Profile</button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                 <li role="presentation"><a role="menuitem" href="#">change password</a></li>
-                <li role="presentation"><a role="menuitem" href="{% url 'logout' %}">Logout</a></li>
+                <li role="presentation"><a role="menuitem" href="{% url 'home' %}">Logout</a></li>
               </ul>
             </div>
           </div>

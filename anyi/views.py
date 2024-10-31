@@ -47,7 +47,23 @@ def admin_login(request):
 
 # @login_required
 def student_dashboard(request):
-    return render(request, 'anyi/login.html')
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('student_login')
+    
+    student = None
+    for model in [jss1, jss2, jss3, ss1, ss2, ss3]:
+        try:
+            student = model.objects.get(id=user_id)
+            break
+        except model.DoesNotExist:
+            continue
+
+    if not student:
+        messages.error(request, "Student not found.")
+        return redirect('student_login')
+
+    return render(request, 'anyi/user_dashboard.html', {'username': student.username})
 
 # @login_required
 def bursal_dashboard(request):
