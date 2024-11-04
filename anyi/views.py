@@ -24,6 +24,9 @@ def admin_register(request):
 def teacher_board(request):
     return render(request, 'bursal_dashboard.html')
 
+
+# login session
+
 def admin_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -45,6 +48,94 @@ def admin_login(request):
         form = LoginForm()
         
     return render(request, 'anyi/admin_login.html', {'form': form})
+
+
+def student_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            student_models = [jss1, jss2, jss3, ss1, ss2, ss3]
+            student = None
+
+            for model in student_models:
+                try:
+                    student = model.objects.get(username=username)
+                    if student.password == password:  # Simple password check
+                        request.session['user_id'] = student.id
+                        request.session['role'] = model.__name__.lower()  # Store model name as role
+                        messages.success(request, 'Logged in successfully!')
+                        return redirect('student_dashboard')  # Redirect based on role
+                    else:
+                        messages.error(request, 'Invalid password!')
+                        return render(request, 'members/login.html', {'form': form})
+                except model.DoesNotExist:
+                    continue  # Move to the next model if the username isn't found
+
+            # If we reach here, the user was not found in any model
+            else:
+                messages.error(request, 'Invalid username or password')
+    else:
+        form = LoginForm()
+
+    return render(request, 'anyi/login.html', {'form': form})
+
+
+
+def bursal_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            
+            bursal_user = Bursal.objects.filter(username=username, password=password).first()
+            if bursal_user:
+                request.session['role'] = 'Bursal'
+                request.session['user_id'] = bursal_user.id
+                return redirect('bursal_dashboard')  # Redirect to bursal dashboard
+            
+            
+            else:
+                messages.error(request, 'Invalid username or password')
+    else:
+        form = LoginForm()
+        
+    return render(request, 'anyi/bursal_login.html', {'form':form})
+        
+
+def teacher_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            teacher_user = Teacher.objects.filter(username=username, password=password).first()
+            if teacher_user:
+                request.session['role'] = 'Teacher'
+                request.session['user_id'] = teacher_user.id
+                return redirect('teacher_dashboard')  # Redirect to teacher dashboard
+            
+            else:
+                messages.error(request, 'Invalid username or password')
+    else:
+        form = LoginForm()
+        
+    return render(request, 'anyi/teacher_login.html', {'form':form})
+
+
+# login ends
+
+
+
+# enrol form
+def enrol(request):
+    return render(request, 'anyi/user_register.html')
+
+
+
 
 # @login_required
 def student_dashboard(request):
@@ -91,78 +182,6 @@ def admin_dashboard(request):
 
 
 
-
-
-def student_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-
-            student_models = [jss1, jss2, jss3, ss1, ss2, ss3]
-            student = None
-
-            for model in student_models:
-                try:
-                    student = model.objects.get(username=username)
-                    if student.password == password:  # Simple password check
-                        request.session['user_id'] = student.id
-                        request.session['role'] = model.__name__.lower()  # Store model name as role
-                        messages.success(request, 'Logged in successfully!')
-                        return redirect('student_dashboard')  # Redirect based on role
-                    else:
-                        messages.error(request, 'Invalid password!')
-                        return render(request, 'members/login.html', {'form': form})
-                except model.DoesNotExist:
-                    continue  # Move to the next model if the username isn't found
-
-            # If we reach here, the user was not found in any model
-            messages.error(request, 'Invalid username!')
-    else:
-        form = LoginForm()
-
-    return render(request, 'anyi/login.html', {'form': form})
-
-
-
-def bursal_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            
-            bursal_user = Bursal.objects.filter(username=username, password=password).first()
-            if bursal_user:
-                request.session['role'] = 'Bursal'
-                request.session['user_id'] = bursal_user.id
-                return redirect('bursal_dashboard')  # Redirect to bursal dashboard
-    else:
-        form = LoginForm()
-        
-    return render(request, 'anyi/bursal_login.html', {'form':form})
-        
-
-def teacher_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            teacher_user = Teacher.objects.filter(username=username, password=password).first()
-            if teacher_user:
-                request.session['role'] = 'Teacher'
-                request.session['user_id'] = teacher_user.id
-                return redirect('teacher_dashboard')  # Redirect to teacher dashboard
-    else:
-        form = LoginForm()
-        
-    return render(request, 'anyi/teacher_login.html', {'form':form})
-
-# enrol form
-def enrol(request):
-    return render(request, 'anyi/user_register.html')
 
 def user_enrol(request):
     if request.method == 'POST':
