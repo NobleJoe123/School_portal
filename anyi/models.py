@@ -61,6 +61,7 @@ class jss1(models.Model):
     lga = models.CharField(max_length=100)
     dob = models.DateField()
     guardianname = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -80,6 +81,7 @@ class jss2(models.Model):
     lga = models.CharField(max_length=100)
     dob = models.DateField()
     guardianname = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -98,6 +100,7 @@ class jss3(models.Model):
     lga = models.CharField(max_length=100)
     dob = models.DateField()
     guardianname = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -116,6 +119,7 @@ class ss1(models.Model):
     lga = models.CharField(max_length=100)
     dob = models.DateField()
     guardianname = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -134,6 +138,7 @@ class ss1(models.Model):
     lga = models.CharField(max_length=100)
     dob = models.DateField()
     guardianname = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -152,6 +157,7 @@ class ss2(models.Model):
     lga = models.CharField(max_length=100)
     dob = models.DateField()
     guardianname = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -171,6 +177,7 @@ class ss3(models.Model):
     lga = models.CharField(max_length=100)
     dob = models.DateField()
     guardianname = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
