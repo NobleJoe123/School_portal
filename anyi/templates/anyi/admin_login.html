@@ -50,16 +50,22 @@
         <form action="{% url 'admin_login' %}" method="post" autocomplete="off">
             {% csrf_token %}
             {{ form.as_p }}
-            <p style="text-align: center;">Didn't have an account?<a href="{% url 'admin_register' %}"> Register</a> </p>
-            <div class="msg">{{ msg }}</div>
+            <p style="text-align: center;">Didn't have an account?<a href="{% url 'admin_register' %}"> Register</a>
+            </p>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="msg">{{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
             <button type="submit" id="demo">Submit</button>
         </form>
     </div>
     <!-- Login End -->
 
 
-     <!-- Footer Start -->
-     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
