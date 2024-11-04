@@ -47,7 +47,7 @@
     <!-- Register Start -->
     <div class="enrol">
         <h1>Enrol</h1>
-        <form method="post" autocomplete="off">
+        <form method="post" enctype="multipart/form-data" autocomplete="off">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" id="demo">Submit</button>
