@@ -41,6 +41,7 @@ class StudentForm(forms.Form):
     lga = forms.CharField(max_length=100)
     dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     guardianname = forms.CharField(max_length=100)
+    image = forms.ImageField()
     classes = forms.ChoiceField(choices=STUDENT_TYPE_CHOICES)
 
     def save(self):
