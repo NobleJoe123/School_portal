@@ -39,15 +39,17 @@ def admin_login(request):
                 request.session['user_id'] = admin_user.id  # Store user ID for later use
                 return redirect('admin_dashboard')  # Redirect to admin dashboard
             
-            # messages = 'Invalid username or password'
+            else:
+                messages.error(request, 'Invalid username or password')
     else:
         form = LoginForm()
         
-        return render(request, 'anyi/admin_login.html', {'form': form})
+    return render(request, 'anyi/admin_login.html', {'form': form})
 
 # @login_required
 def student_dashboard(request):
     user_id = request.session.get('user_id')
+    
     if not user_id:
         return redirect('student_login')
     
@@ -63,7 +65,11 @@ def student_dashboard(request):
         messages.error(request, "Student not found.")
         return redirect('student_login')
 
-    return render(request, 'anyi/user_dashboard.html', {'username': student.username})
+    return render(request, 'anyi/user_dashboard.html', {
+        'firstname': student.firstname ,
+        'surname': student.surname,
+        'image_url': student.image.url if student.image else None
+        })
 
 # @login_required
 def bursal_dashboard(request):
@@ -194,7 +200,7 @@ def user_enrol(request):
 
 def user_reg(request):
     if request.method == 'POST':
-        form = StudentForm(request.POST)
+        form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()  # Save data to the appropriate model
             return redirect('student_login')  # Redirect to a success page or any other view
