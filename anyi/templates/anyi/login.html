@@ -50,7 +50,12 @@
         <form action="{% url 'student_login' %}" method="post" autocomplete="off">
             {% csrf_token %}
             {{ form.as_p }}
-            <div class="msg">{{ msg }}</div>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="msg">{{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
             <button type="submit" id="demo">Submit</button>
         </form>
     </div>
