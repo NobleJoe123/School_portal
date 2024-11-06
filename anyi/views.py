@@ -227,4 +227,4 @@ def user_reg(request):
     else:
         form = StudentForm()
 
-    return render(request, 'anyi/user_register.html', {'form': form})
+    return render(request, 'anyi/student_register.html', {'form': form})
