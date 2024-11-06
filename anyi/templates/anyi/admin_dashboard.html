@@ -8,8 +8,12 @@
   <title>Anyi's College</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{% static 'anyi/main/css/style.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'anyi/main/css/main.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'anyi/main/css/profile.css' %}" type="text/css">
   <!-- <link rel="stylesheet" href="/static/main/css/skins/pink.css" type="text/css"> -->
+
+
+  <link href="{% static 'anyi/assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
 
   <!--Live Style Switcher - Demo Only-->
   <link rel="stylesheet" class="alternate-style" title="pink" href="{% static 'anyi/main/css/skins/pink.css' %}"
@@ -41,11 +45,17 @@
     <!--Aside begins-->
     <div class="aside">
       <!--logo-->
-      <div class="logo">
-        <img src="{{ image_url }}" style="border-radius: 60px;" alt="School Logo" class="shadow-dark" width="120px"
-          height="120px">
+
+      <div class="profile">
+        <img src="{{ image_url }}" alt="Profile Image">
         <h1 class="text-light"><a href="{% url 'home' %}">{{ firstname }} {{ surname }}</a></h1>
-        <a href="{% url 'home' %}">Anyi's College</a>
+        <div class="social-links mt-3 text-center">
+          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
       </div>
       <!--Nav Toggle btn-->
       <div class="nav-toggle">
