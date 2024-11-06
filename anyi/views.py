@@ -171,7 +171,7 @@ def bursal_dashboard(request):
 def teacher_dashboard(request):
     data = Teacher.objects.all()[:10]
 
-    return render(request, 'anyi/tech.html', {'data':data})
+    return render(request, 'anyi/teacher.html', {'data':data})
 
 # @login_required
 def admin_dashboard(request):
