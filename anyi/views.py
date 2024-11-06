@@ -183,7 +183,7 @@ def admin_dashboard(request):
 
 
 
-def user_enrol(request):
+def admin_enrol(request):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
         if form.is_valid():
@@ -213,7 +213,7 @@ def user_enrol(request):
     else:
         form = UserForm()
 
-    return render(request, 'anyi/user_reg.html', {'form': form})
+    return render(request, 'anyi/admin_register.html', {'form': form})
 
 # def custom_404_view(request, exception):
 #     return render(request, 'anyi/404.html', status=404)
