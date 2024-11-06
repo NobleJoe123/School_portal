@@ -132,7 +132,7 @@ def teacher_login(request):
 
 # enrol form
 def enrol(request):
-    return render(request, 'anyi/user_register.html')
+    return render(request, 'anyi/enrol.html')
 
 
 
