@@ -24,7 +24,7 @@ urlpatterns = [
     path('teacher_dashboard/', views.teacher_dashboard, name='teacher_dashboard'),
     path('enrol/', views.enrol, name='enrol'),
     path('user_enrol/', views.admin_enrol, name='admin_enrol'),
-    path('user_reg/', views.student_register, name='user_reg'),
+    path('user_reg/', views.student_register, name='student_reg'),
     # path('404/', views.custom_404_view, name='404'),
     
 
