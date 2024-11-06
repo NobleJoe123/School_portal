@@ -9,6 +9,7 @@ class UserForm(forms.Form):
     email = forms.EmailField()
     phonenum = forms.CharField(max_length=15)
     password = forms.CharField(widget=forms.PasswordInput)
+    image = forms.ImageField()
     role = forms.ModelChoiceField(queryset=Role.objects.all(), empty_label="Select Role")
 
 

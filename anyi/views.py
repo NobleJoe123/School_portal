@@ -185,7 +185,7 @@ def admin_dashboard(request):
 
 def user_enrol(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = UserForm(request.POST, request.FILES)
         if form.is_valid():
             # Extract data from the form
             fname = form.cleaned_data['fname']
@@ -194,18 +194,19 @@ def user_enrol(request):
             email = form.cleaned_data['email']
             phonenum = form.cleaned_data['phonenum']
             password = form.cleaned_data['password']
+            image = form.cleaned_data['image']
             role = form.cleaned_data['role'].role_name
 
             # Insert into the correct table based on role
             if role == 'Admin':
                 Admin.objects.create(fname=fname, sname=sname, username=username,
-                                     email=email, phonenum=phonenum, password=password)
+                                     email=email, phonenum=phonenum, image=image, password=password)
             elif role == 'Bursal':
                 Bursal.objects.create(fname=fname, sname=sname, username=username,
-                                      email=email, phonenum=phonenum, password=password)
+                                      email=email, phonenum=phonenum, image=image, password=password)
             elif role == 'Teacher':
                 Teacher.objects.create(fname=fname, sname=sname, username=username,
-                                       email=email, phonenum=phonenum, password=password)
+                                       email=email, phonenum=phonenum, image=image, password=password)
 
             return redirect('admin_login')  # Redirect to some success page
 

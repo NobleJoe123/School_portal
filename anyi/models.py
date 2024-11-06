@@ -8,6 +8,7 @@ class Admin(models.Model):
     email = models.CharField(max_length=255, unique=True)
     phonenum = models.CharField(max_length=15)
     password = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -21,6 +22,7 @@ class Bursal(models.Model):
     email = models.CharField(max_length=255, unique=True)
     phonenum = models.CharField(max_length=15)
     password = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -34,6 +36,7 @@ class Teacher(models.Model):
     email = models.CharField(max_length=255, unique=True)
     phonenum = models.CharField(max_length=15)
     password = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
