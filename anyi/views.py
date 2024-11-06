@@ -136,8 +136,9 @@ def enrol(request):
 
 
 
+# DASHBOARDS STARTS
 
-# @login_required
+
 def student_dashboard(request):
     user_id = request.session.get('user_id')
     
@@ -162,25 +163,95 @@ def student_dashboard(request):
         'image_url': student.image.url if student.image else None
         })
 
-# @login_required
-def bursal_dashboard(request):
-    data = Teacher.objects.all()[:10]       
-    return render(request, 'anyi/bursal_dashboard.html', {'data':data})
 
-# @login_required
+def bursal_dashboard(request):
+
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        return redirect('bursal_login')
+    
+    
+    bursal = None
+    for model in [Bursal]:
+        try:
+            bursal = model.objects.get(id=user_id)
+            break
+        except model.DoesNotExist:
+            continue
+
+    if not bursal:
+        messages.error(request, "Teacher not found.")
+        return redirect('bursal_login')
+
+    data = Bursal.objects.all()[:10]  
+
+
+    return render(request, 'anyi/bursal_dashboard.html', 
+                  {'data':data,
+                   'firstname': data.firstname ,
+                    'surname': data.surname,
+                    'image_url': data.image.url if data.image else None})
+
+
 def teacher_dashboard(request):
+
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        return redirect('teacher_login')
+    
+    teacher = None
+    for model in [Teacher]:
+        try:
+            teacher = model.objects.get(id=user_id)
+            break
+        except model.DoesNotExist:
+            continue
+
+    if not teacher:
+        messages.error(request, "Teacher not found.")
+        return redirect('teacher_login')
+
+
     data = Teacher.objects.all()[:10]
 
-    return render(request, 'anyi/teacher.html', {'data':data})
+    return render(request, 'anyi/teacher.html', 
+                  {'data':data,
+                   'firstname': data.firstname ,
+                    'surname': data.surname,
+                    'image_url': data.image.url if data.image else None })
 
-# @login_required
+
 def admin_dashboard(request):
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        return redirect('admin_login')
+    
+    
+    admin = None
+    for model in [Admin]:
+        try:
+            admin = model.objects.get(id=user_id)
+            break
+        except model.DoesNotExist:
+            continue
+
+    if not admin:
+        messages.error(request, "Admin not found.")
+        return redirect('admin_login')
+
     people = Admin.objects.all()[:10]
     # if not Admin.objects.filter(user=request.user).exists():
     #     return redirect('admin_login')
-    return render(request, 'anyi/admin_dashboard.html', {'people': people})
+    return render(request, 'anyi/admin_dashboard.html', 
+                  {'people': people,
+                   'firstname': admin.fname ,
+                   'surname': admin.sname,
+                   'image_url': admin.image.url if admin.image else None})
 
-
+# DASHBOARDS ENDS
 
 
 def admin_enrol(request):
