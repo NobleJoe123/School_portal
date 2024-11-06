@@ -156,7 +156,7 @@ def student_dashboard(request):
         messages.error(request, "Student not found.")
         return redirect('student_login')
 
-    return render(request, 'anyi/user_dashboard.html', {
+    return render(request, 'anyi/student_dashboard.html', {
         'firstname': student.firstname ,
         'surname': student.surname,
         'image_url': student.image.url if student.image else None
