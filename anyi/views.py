@@ -218,7 +218,7 @@ def user_enrol(request):
 # def custom_404_view(request, exception):
 #     return render(request, 'anyi/404.html', status=404)
 
-def user_reg(request):
+def student_register(request):
     if request.method == 'POST':
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
