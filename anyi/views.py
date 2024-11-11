@@ -216,11 +216,11 @@ def teacher_dashboard(request):
 
     data = Teacher.objects.all()[:10]
 
-    return render(request, 'anyi/teacher.html', 
+    return render(request, 'anyi/teacher_dashboard.html', 
                   {'data':data,
-                   'firstname': data.firstname ,
-                    'surname': data.surname,
-                    'image_url': data.image.url if data.image else None })
+                   'firstname': teacher.fname ,
+                    'surname': teacher.sname,
+                    'image_url': teacher.image.url if teacher.image else None })
 
 
 def admin_dashboard(request):
@@ -253,6 +253,11 @@ def admin_dashboard(request):
 
 # DASHBOARDS ENDS
 
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Admin, Bursal, Teacher
+from .forms import UserForm
 
 def admin_enrol(request):
     if request.method == 'POST':
@@ -270,21 +275,29 @@ def admin_enrol(request):
 
             # Insert into the correct table based on role
             if role == 'Admin':
-                Admin.objects.create(fname=fname, sname=sname, username=username,
-                                     email=email, phonenum=phonenum, image=image, password=password)
+                Admin.objects.create(
+                    fname=fname, sname=sname, username=username,
+                    email=email, phonenum=phonenum, password=password, image=image
+                )
             elif role == 'Bursal':
-                Bursal.objects.create(fname=fname, sname=sname, username=username,
-                                      email=email, phonenum=phonenum, image=image, password=password)
+                Bursal.objects.create(
+                    fname=fname, sname=sname, username=username,
+                    email=email, phonenum=phonenum, password=password, image=image
+                )
             elif role == 'Teacher':
-                Teacher.objects.create(fname=fname, sname=sname, username=username,
-                                       email=email, phonenum=phonenum, image=image, password=password)
+                Teacher.objects.create(
+                    fname=fname, sname=sname, username=username,
+                    email=email, phonenum=phonenum, password=password, image=image
+                )
 
-            return redirect('admin_login')  # Redirect to some success page
+            messages.success(request, 'User registered successfully!')
+            return redirect('admin_login')  # Redirect to login or success page
 
     else:
         form = UserForm()
 
-    return render(request, 'anyi/admin_register.html', {'form': form})
+    return render(request, 'anyi/admin_reg.html', {'form': form})
+
 
 # def custom_404_view(request, exception):
 #     return render(request, 'anyi/404.html', status=404)
