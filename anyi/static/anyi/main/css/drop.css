@@ -25,14 +25,16 @@
     
     /* Dropdown button */
     .dropdown .dropbtn {
-        font-size: 16px; 
-        border: none;
-        outline: none;
-        color: white;
-        /* padding: 14px 16px; */
-        background-color: inherit;
-        font-family: inherit; /* Important for vertical align on mobile phones */
-        margin: 0; /* Important for vertical align on mobile phones */
+      font-size: 16px;
+      font-weight: 600;
+      color: #302e4d;
+      text-decoration: none;
+      line-height: 45px;
+      display: block;
+      border-bottom :1px solid #e8dfec;
+      -webkit-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+      text-transform: capitalize;
       }
       
       /* Add a red background color to navbar links on hover */
