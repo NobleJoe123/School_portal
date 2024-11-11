@@ -2,188 +2,145 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<html>
-    <head> 
-        <title>Anyi's College</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'anyi/main/css/style.css' %}" type="text/css">
-        <link rel="stylesheet" href="{% static 'anyi/main/css/drop.css' %}">
-        <!-- <link rel="stylesheet" href="/static/main/css/skins/pink.css" type="text/css"> -->
 
-                                  <!--Live Style Switcher - Demo Only-->
-        <link rel="stylesheet" class="alternate-style" title="pink" href="{% static 'anyi/main/css/skins/pink.css' %}" type="text/css" disabled>
-        <link rel="stylesheet" class="alternate-style" title="blue" href="{% static 'anyi/main/css/skins/blue.css' %}" type="text/css" disabled>
-        <link rel="stylesheet" class="alternate-style" title="orange" href="{% static 'anyi/main/css/skins/orange.css' %}" type="text/css" disabled>
-        <link rel="stylesheet" class="alternate-style" title="yellow" href="{% static 'anyi/main/css/skins/yellow.css' %}" type="text/css" disabled>
-        <link rel="stylesheet" class="alternate-style" title="green" href="{% static 'anyi/main/css/skins/green.css' %}" type="text/css" disabled>
+<head>
+    <title>Anyi's College</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="{% static 'anyi/main/css/styleSwitcher.css' %}" type="text/css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'anyi/main/css/index.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'anyi/main/css/drop.css' %}">
+    <link rel="stylesheet" class="alternate-style" title="pink" href="{% static 'anyi/main/css/skins/pink.css' %}"
+        type="text/css" disabled>
+    <link rel="stylesheet" class="alternate-style" title="blue" href="{% static 'anyi/main/css/skins/blue.css' %}"
+        type="text/css" disabled>
+    <link rel="stylesheet" class="alternate-style" title="orange" href="{% static 'anyi/main/css/skins/orange.css' %}"
+        type="text/css" disabled>
+    <link rel="stylesheet" class="alternate-style" title="yellow" href="{% static 'anyi/main/css/skins/yellow.css' %}"
+        type="text/css" disabled>
+    <link rel="stylesheet" class="alternate-style" title="green" href="{% static 'anyi/main/css/skins/green.css' %}"
+        type="text/css" disabled>
+    <link rel="stylesheet" href="{% static 'anyi/main/css/styleSwitcher.css' %}" type="text/css">
+</head>
 
+<body>
 
-    </head>
-   <body>
+    <!-- Loader -->
+    <div class="preloaded">
+        <div class="loader"></div>
+    </div>
 
-     <div class="preloaded">
-        <div class="loader">
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar Navigation -->
+        <aside class="aside">
+            <div class="logo">
+                <a href="{% url 'home' %}">{{ firstname }} {{ surname }}</a>
+            </div>
+            <div class="nav-toggle"><span></span></div>
+            <ul class="nav">
+                <li><a href="#profile" onclick="showSection('profile')" class="active"><i class="fa fa-user"></i>Profile</a></li>
+                <li><a href="#atten" onclick="showSection('atten')"><i class="fa fa-calendar"></i>Attendance</a></li>
+                <li class="dropdown"><button class="dropbtn"><a href="#" onclick="showSection('test')"><i class="fa fa-book"></i>Test<i class="fa fa-caret-down"></i></a></button>
+                    <div class="dropdown-content">
+                        <a href="#ca1">CA1</a>
+                        <a href="#ca2">CA2</a>
+                        <a href="#ca3">CA3</a>
+                    </div>
+                </li>
+                <li><a href="#assign" onclick="showSection('assign')"><i class="fa fa-tasks"></i>Assignment</a></li>
+                <li><a href="#news" onclick="showSection('news')"><i class="fa fa-newspaper"></i>News</a></li>
+                <li><a href="#message" onclick="showSection('message')"><i class="fa fa-envelope"></i>Messages</a></li>
+                <li><a href="#notify" onclick="showSection('notify')"><i class="fa fa-bell"></i>Notifications</a></li>
+                <li><a href="#report" onclick="showSection('report')"><i class="fa fa-file-alt"></i>Reports</a></li>
+                <li><a href="#result" onclick="showSection('result')"><i class="fa fa-chart-line"></i>Results</a></li>
+                <li><a href="{% url 'home' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
+            </ul>
+            <div class="copyright-text" style="color: #0dcaf0;">
+                &copy; @Jascube Technologies
+            </div>
+        </aside>
 
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Profile Section -->
+            <section class="section active" id="profile">
+                <div class="container">
+                    <div class="intro">
+                        <img src="{{ image_url }}" alt="Profile Picture" class="shadow-dark" width="120px"
+                            height="120px" style="border-radius: 60px;">
+                        <h1>{{ firstname }} {{ surname }}</h1>
+                        <div class="social-links">
+                            <a href="https://twitter.com/kalexdonia93" target="_blank"><i class="fa fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/john.adeyemi2/" target="_blank"><i
+                                    class="fa fa-facebook"></i></a>
+                            <a href="#" target="_blank"><i class="fa fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/in/adeyemi-john-56b47993/" target="_blank"><i
+                                    class="fa fa-linkedin"></i></a><br>
+                            <button>Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Additional Sections (Example Structure) -->
+            <section class="section" id="atten">
+                <div class="container">
+                    <h2>Attendance Section</h2>
+                    <p>Attendance details go here.</p>
+                </div>
+            </section>
+            <!-- Add more sections as needed -->
+
+            <!-- Style Switcher -->
+            <div class="style-switcher">
+                <div class="toggle-style-switcher"><i class="fa fa-cog fa-spin"></i></div>
+                <h5>Style Switcher</h5>
+                <ul>
+                    <li><a href="Javascript:void(0);" title="pink" style="background-color: #ec1839"
+                            onclick="setActiveStyle('pink')"></a></li>
+                    <li><a href="Javascript:void(0);" title="blue" style="background-color: #0dcaf0"
+                            onclick="setActiveStyle('blue')"></a></li>
+                    <li><a href="Javascript:void(0);" title="orange" style="background-color: #fa5b0f"
+                            onclick="setActiveStyle('orange')"></a></li>
+                    <li><a href="Javascript:void(0);" title="yellow" style="background-color: #ffb400"
+                            onclick="setActiveStyle('yellow')"></a></li>
+                    <li><a href="Javascript:void(0);" title="green" style="background-color: #72b626"
+                            onclick="setActiveStyle('green')"></a></li>
+                </ul>
+                <h5>Body Skin</h5>
+                <label>
+                    <input type="radio" class="body-skin" name="body-style" value="light" checked="true"> Light
+                </label>
+                <label>
+                    <input type="radio" class="body-skin" name="body-style" value="dark"> Dark
+                </label>
+            </div>
         </div>
-     </div>
+    </div>
 
-       <!--main-container-->  
-       <div class="main-container">
-          <!--Aside begins-->
-           <div class="aside">
-               <!--logo-->
-               <div class="logo">
-                <img src="{% static 'anyi/main/images/about/9.png' %}" style="border-radius: 60px;" alt="School Logo" class="shadow-dark" width="120px" height="120px">
-                   <a href="{% url 'home' %}">{{ person.username }}</a> 
-               </div>
-               <!--Nav Toggle btn-->
-               <div class="nav-toggle">
-                   <span></span>
-               </div>
-               <!--Nav-->
-               <ul class="nav">
-                  <li class="dropdown"><button class="dropbtn"><a href="#" class="#"><i class="fa fa-user"></i>Test <i class="fa fa-caret-down"></i></a></button>
-                  <div class="dropdown-content">
-                    <a href="#">CA1</a>
-                    <a href="#">CA2</a>
-                    <a href="#">CA3</a>
-                  </div>
-                  </li>
-                  <li><a href="{% url 'home' %}"><i class="fa fa-user"></i>Attendance</a></li>
-                  <li><a href="{% url 'home' %}"><i class="fa fa-user"></i>Notification</a></li>
-                  <li><a href="#portfolio"><i class="fa fa-user"></i>News</a></li>
-                  <li><a href="#blog"><i class="fa fa-download"></i>Assignment</a></li>
-                  <li><button id="showTextButton"><a href="#"><i class="fa fa-upload"></i>Reports</a></button></li>
-                  <li><button id="showTextButton"><a href="#"><i class="fa fa-upload"></i>Results</a></button></li>
-                  <li><button id="showTextButton"><a href="#"><i class="fa fa-upload"></i>Messages</a></button></li>
-                  <li><a href="{% url 'home' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
-                
-               <!--Copyright-->
-               <div class="copyright-text" style="color: #0dcaf0;">
-                    &copy; @Jascube Technologies 
-               </div>
-           <!--Aside ends-->
+    <!-- JavaScript -->
+    <script src="{% static 'anyi/main/js/script.js' %}"></script>
+    <script src="{% static 'anyi/main/js/styleSwitcher.js' %}"></script>
 
-           <!--Main content-->
-           <div class="main-content"> 
-               <!--Home Section-->
-               <section class="home section active" id="home">
-                <div class="card-one"><a href="{% url 'home' %}">
-                  <div class="contain">
-                  <h1>Student</h1>
-                  <h2>{{ student_count }}</h2>
-                  </div>
-                  </a>   
-                 </div>
-                
-                <div class="card-two"><a href="#">
-                  <div class="contain">
-                  <h1>Exam</h1>
-                  </div>
-                  </a>
-                </div>
-                
-                <div class="card-three"><a href="{% url 'home' %}">
-                  <div class="contain">
-                  <h1>Assignment</h1>
-                  </div>
-                  </a>
-                </div>
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
 
-                <div class="card-one"><a href="#">
-                  <div class="contain">
-                  <h1>Payment</h1>
-                  </div>
-                  </a>
-                </div>
+            // Remove active class from all navbar links
+            document.querySelectorAll('.nav a').forEach(link => {
+                link.classList.remove('active');
+            });
 
-
-                <div class="search">
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
-                </div>
-
-                <table id="myTable">
-                  {% for person in data %}
-                  <tr>
-                    <td>{{ person.id }}</td>
-                    <td>{{ person.fname }}</td>
-                    <td>{{ person.email }}</td>
-                    <td>+234{{ person.phonenum }}</td>
-                    <td style="font-size: medium;"> <a  href="">View</a></td>
-                  </tr>
-                  {% endfor %}
-                </table>
-
-                <div id="hiddenText" style="display: none;">
-                  <form action="/upload" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file">
-                    <br>
-                    <button type="submit">Submit</button>
-                  </form>
-                </div>
-               </section>
-              </div>
-           </div>
-           <script>
-            document.getElementById("showTextButton").onclick = function() {
-              const hiddenText = document.getElementById("hiddenText");
-              hiddenText.style.display = "block";
-            };
-
-            document.getElementById("cardOne").onclick = function() {
-              const cardData = document.getElementById("cardData");
-              CardData.style.display = "block";
-            };
-           </script>
-
-<!-- Lightbox begins-->
-<div class="lightbox">
-  <div class="lightbox-content">
-    <div class="lightbox-close">&times;</div>
-    <img src="{% static 'anyi/images/portfolio/1a.png' %}" class="lightbox-img" onclick="nextItem()">
-    <div class="lightbox-caption">
-      <div class="caption-text">Web Design</div>
-      <div class="caption-counter"></div>
-   </div>
-  </div>
-  <div class="lightbox-controls">
-    <div class="prev-item" onclick="prevItem"><i class="fa fa-angle-left"></i></div>
-    <div class="next-item" onclick="nextItem"><i class="fa fa-angle-right"></i></div>
-  </div>
-</div>
-<!-- Lightbox ends-->
-
-<!--Live Switcher begins-->
-<div class="style-switcher">
-  <div class="toggle-style-switcher">
-    <i class="fa fa-cog fa-spin" ></i>
-  </div>
-  <h5>Style Switcher</h5>
-  <ul>
-    <li><a href="Javascript:void(0);" title="pink" style="background-color: #ec1839" onclick="setActiveStyle('pink')"></a></li>
-    <li><a href="Javascript:void(0);" title="blue" style="background-color: #0dcaf0" onclick="setActiveStyle('blue')"></a></li>
-    <li><a href="Javascript:void(0);" title="orange" style="background-color: #fa5b0f" onclick="setActiveStyle('orange')"></a></li>
-    <li><a href="Javascript:void(0);" title="yellow" style="background-color: #ffb400" onclick="setActiveStyle('yellow')"></a></li>
-    <li><a href="Javascript:void(0);" title="green" style="background-color: #72b626" onclick="setActiveStyle('green')"></a></li>
-  </ul>
-  <h5>Body Skin</h5>
-  <label>
-    <input type="radio" class="body-skin" name="body-style" value="light" checked="true">
-    Light
-  </label>
-  <input type="radio" class="body-skins" name="body-style" value="dark">
-    Dark
-  </label>
-</div>
-<!--Live Switcher end-->
-
-<!--Javascript Template-->
-<script src="{% static 'anyi/main/js/script.js' %}"></script>
-
-<!-- styleSwitcher Javascript -->
-<script src="{% static 'anyi/main/js/styleSwitcher.js' %}"></script>
+            // Show the clicked section and add active class to the navbar link
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelector(`.nav a[href="#${sectionId}"]`).classList.add('active');
+        }
+    </script>
 </body>
+
 </html>

@@ -47,7 +47,7 @@
     <!-- Register Start -->
     <div class="enrol">
         <h1>Enrol</h1>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }} <!-- This will render the form fields -->
 
