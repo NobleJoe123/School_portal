@@ -27,6 +27,10 @@ class Bursal(models.Model):
 
     def __str__(self):
         return f"Bursal: {self.username}"
+    
+
+
+
 
 
 class Teacher(models.Model):

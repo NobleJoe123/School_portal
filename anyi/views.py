@@ -214,7 +214,7 @@ def teacher_dashboard(request):
         return redirect('teacher_login')
 
 
-    data = Teacher.objects.all()[:10]
+    data = ss3.objects.all()[:10]
 
     return render(request, 'anyi/teacher_dashboard.html', 
                   {'data':data,
@@ -254,10 +254,7 @@ def admin_dashboard(request):
 # DASHBOARDS ENDS
 
 # views.py
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import Admin, Bursal, Teacher
-from .forms import UserForm
+
 
 def admin_enrol(request):
     if request.method == 'POST':
