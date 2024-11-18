@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from .forms import UserForm, LoginForm, StudentForm
+from .forms import UserForm, LoginForm, StudentForm, TeacherForm
 from django.contrib import messages
 from .models import Role, Admin, Bursal, Teacher, jss1, jss2, jss3, ss1, ss2, ss3
 
@@ -136,6 +136,17 @@ def enrol(request):
 
 
 
+def add_teacher(request):
+    if request.method == "POST":
+        form = TeacherForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("success")  # Replace with your success page
+    else:
+        form = TeacherForm()
+    return render(request, "anyi/add_teacher.html", {"form": form})
+
+
 # DASHBOARDS STARTS
 
 
@@ -212,15 +223,27 @@ def teacher_dashboard(request):
     if not teacher:
         messages.error(request, "Teacher not found.")
         return redirect('teacher_login')
+    
+
+    # teacher_user_id = teacher.user_id  # Assuming Teacher model has `class_id`
+    # students = ss3.objects.filter(user_id=teacher_user_id)
+
+    students = ss3.objects.all()  # Or filter as needed
+
+    weeks = range(1, 15)
+    check = range(5)
+    
+    context = {
+        "data": students,
+        "weeks": weeks,  # Pass the weeks range to the template
+        "check": check,
+        'firstname': teacher.fname ,
+        'surname': teacher.sname,
+        'image_url': teacher.image.url if teacher.image else None 
+    }
 
 
-    data = ss3.objects.all()[:10]
-
-    return render(request, 'anyi/teacher_dashboard.html', 
-                  {'data':data,
-                   'firstname': teacher.fname ,
-                    'surname': teacher.sname,
-                    'image_url': teacher.image.url if teacher.image else None })
+    return render(request, 'anyi/teacher_dashboard.html', context)
 
 
 def admin_dashboard(request):
