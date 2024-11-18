@@ -45,7 +45,7 @@ class Teacher(models.Model):
         choices=[("Male", "Male"), ("Female", "Female")],
         verbose_name="Gender",
     )
-    address = models.TextField(verbose_name="Address")
+    address = models.TextField(verbose_name="Address", null=True, blank=True)
     emergency = models.CharField(max_length=100, verbose_name="Emergency Contact")
 
     # File Uploads
