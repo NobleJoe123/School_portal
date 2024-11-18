@@ -35,29 +35,29 @@ class Bursal(models.Model):
 
 class Teacher(models.Model):
     # Personal Details
-    fname = models.CharField(max_length=50, verbose_name="First Name")
-    sname = models.CharField(max_length=50, verbose_name="Surname")
+    fname = models.CharField(max_length=50, verbose_name="First Name",  null=True, blank=True)
+    sname = models.CharField(max_length=50, verbose_name="Surname",  null=True, blank=True)
     mname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Middle Name")
-    age = models.PositiveIntegerField(verbose_name="Age")
-    phone = models.CharField(max_length=15, verbose_name="Phone Number")
+    age = models.PositiveIntegerField(verbose_name="Age",  null=True, blank=True)
+    phone = models.CharField(max_length=15, verbose_name="Phone Number",  null=True, blank=True)
     sex = models.CharField(
         max_length=6,
         choices=[("Male", "Male"), ("Female", "Female")],
-        verbose_name="Gender",
+        verbose_name="Gender",  null=True, blank=True
     )
     address = models.TextField(verbose_name="Address", null=True, blank=True)
-    emergency = models.CharField(max_length=100, verbose_name="Emergency Contact")
+    emergency = models.CharField(max_length=100, verbose_name="Emergency Contact",  null=True, blank=True)
 
     # File Uploads
     cv = models.FileField(upload_to="uploads/cv/", verbose_name="CV", blank=True, null=True)
-    passport = models.ImageField(upload_to="uploads/passport/", verbose_name="Passport Image")
+    passport = models.ImageField(upload_to="uploads/passport/", verbose_name="Passport Image",  null=True, blank=True)
 
     # Academic Details
     CLASS_CHOICES = [
         ("JSS1", "JSS1"), ("JSS2", "JSS2"), ("JSS3", "JSS3"),
         ("SS1", "SS1"), ("SS2", "SS2"), ("SS3", "SS3"),
     ]
-    class_teacher = models.CharField(max_length=5, choices=CLASS_CHOICES, verbose_name="Class Teacher")
+    class_teacher = models.CharField(max_length=5, choices=CLASS_CHOICES, verbose_name="Class Teacher",  null=True, blank=True)
 
     SUBJECT_CHOICES = [
         ("Mathematics", "Mathematics"),
@@ -92,10 +92,10 @@ class Teacher(models.Model):
         ("Fine Art/Creative Art", "Fine Art/Creative Art"),
         ("Geography", "Geography"),
     ]
-    subject_teacher = models.CharField(max_length=50, choices=SUBJECT_CHOICES, verbose_name="Subject Teacher")
+    subject_teacher = models.CharField(max_length=50, choices=SUBJECT_CHOICES, verbose_name="Subject Teacher",  null=True, blank=True)
 
     # Login Details
-    password = models.CharField(max_length=128, verbose_name="Password")
+    password = models.CharField(max_length=128, verbose_name="Password",  null=True, blank=True)
 
     def __str__(self):
         return f"{self.sname}, {self.fname}"
