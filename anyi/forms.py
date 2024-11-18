@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Role, jss1, jss2, jss3, ss1, ss2, ss3
+from .models import Role, jss1, jss2, jss3, ss1, ss2, ss3, Teacher
 
 class UserForm(forms.Form):
     fname = forms.CharField(max_length=100)
@@ -11,6 +11,17 @@ class UserForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
     image = forms.ImageField()
     role = forms.ModelChoiceField(queryset=Role.objects.all(), empty_label="Select Role")
+
+
+
+class TeacherForm(forms.ModelForm):
+    class Meta:
+        model = Teacher
+        fields = "__all__"
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
+
 
 
 class LoginForm(forms.Form):
