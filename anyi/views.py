@@ -239,7 +239,7 @@ def teacher_dashboard(request):
         "check": check,
         'firstname': teacher.fname ,
         'surname': teacher.sname,
-        'image_url': teacher.image.url if teacher.image else None 
+        'image_url': teacher.passport.url if teacher.passport else None 
     }
 
 
