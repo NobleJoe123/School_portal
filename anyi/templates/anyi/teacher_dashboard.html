@@ -14,6 +14,8 @@
     <link rel="stylesheet" class="alternate-style" title="pink" href="{% static 'anyi/main/css/skins/pink.css' %}"
         type="text/css" disabled>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/regular.min.css">
+
 
     <link rel="stylesheet" class="alternate-style" title="blue" href="{% static 'anyi/main/css/skins/blue.css' %}"
         type="text/css" disabled>
@@ -47,14 +49,15 @@
                 <li><a href="#atten" onclick="showSection('atten')"><i class="fa fa-calendar"></i>Attendance</a></li>
                 <li class="dropdown"><button class="dropbtn"><a href="#test" onclick="showSection('test')"><i
                                 class="fa fa-book"></i>Test<i class="fa fa-caret-down"></i></a></button>
-                    <div class="dropdown-content">
+                    <!-- <div class="dropdown-content">
                         <a href="#ca1">CA1</a>
                         <a href="#ca2">CA2</a>
                         <a href="#ca3">CA3</a>
-                    </div>
+                    </div> -->
                 </li>
+                <li><a href="#exam" onclick="showSection('exam')"><i class="fa fa-paper"></i>Examination</a></li>
                 <li><a href="#assign" onclick="showSection('assign')"><i class="fa fa-tasks"></i>Assignment</a></li>
-                <li><a href="#news" onclick="showSection('news')"><i class="fa fa-newspaper"></i>News</a></li>
+                <li><a href="#news" onclick="showSection('news')"><i class="fa-regular fa-newspaper"></i>News</a></li>
                 <li><a href="#message" onclick="showSection('message')"><i class="fa fa-envelope"></i>Messages</a></li>
                 <li><a href="#notify" onclick="showSection('notify')"><i class="fa fa-bell"></i>Notifications</a></li>
                 <li><a href="#report" onclick="showSection('report')"><i class="fa fa-file-alt"></i>Reports</a></li>
@@ -90,15 +93,132 @@
 
             <!-- Additional Sections (Example Structure) -->
             <section class="section" id="atten">
-                <div class="container">
-                    <h2>Attendance Section</h2>
-                    <p>Attendance details go here.</p>
+                <div class="container atten">
+                    <div id="term1-section" class="term-section active">
+                        <h2>1st Term Attendance</h2>
+                        <form id="term1-form">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Student Name</th>
+                                        {% for week in weeks %}
+                                        <th>Wk {{ week }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student in data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ student.firstname }} {{ student.surname }}</td>
+                                        {% for week in weeks %}
+                                        <td>
+                                            <div class="checkbox-group">
+                                                {% for i in check %}
+                                                <input type="checkbox"
+                                                    name="term1_{{ student.id }}_week{{ week }}_{{ i }}"
+                                                    id="term1_{{ student.id }}_week{{ week }}_{{ i }}">
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <button type="button" class="termbtn" onclick="submitAttendance('term1')">Submit 1st Term</button>
+                        </form>
+                    </div>
+
+                    <!-- Second Term Section -->
+                    <div id="term2-section" class="term-section">
+                        <h2>2nd Term Attendance</h2>
+                        <form id="term2-form">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Student Name</th>
+                                        {% for week in weeks %}
+                                        <th>Wk {{ week }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student in data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ student.firstname }} {{ student.surname }}</td>
+                                        {% for week in weeks %}
+                                        <td>
+                                            <div class="checkbox-group">
+                                                {% for i in check %}
+                                                <input type="checkbox"
+                                                    name="term2_{{ student.id }}_week{{ week }}_{{ i }}"
+                                                    id="term2_{{ student.id }}_week{{ week }}_{{ i }}">
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <button type="button" class="termbtn" onclick="submitAttendance('term2')">Submit 2nd Term</button>
+                        </form>
+                    </div>
+
+                    <!-- Third Term Section -->
+                    <div id="term3-section" class="term-section">
+                        <h2>3rd Term Attendance</h2>
+                        <form id="term3-form">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Student Name</th>
+                                        {% for week in weeks %}
+                                        <th>Wk {{ week }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student in data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ student.firstname }} {{ student.surname }}</td>
+                                        {% for week in weeks %}
+                                        <td>
+                                            <div class="checkbox-group">
+                                                {% for i in check %}
+                                                <input type="checkbox"
+                                                    name="term3_{{ student.id }}_week{{ week }}_{{ i }}"
+                                                    id="term3_{{ student.id }}_week{{ week }}_{{ i }}">
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <button type="button" class="termbtn" onclick="submitAttendance('term3')">Submit 3rd Term</button>
+                        </form>
+                    </div>
                 </div>
             </section>
+
             <section class="section" id="test">
                 <div class="container">
                     <h2>Test Section</h2>
                     <p>Test details go here.</p>
+                </div>
+            </section>
+            <section class="section" id="exam">
+                <div class="container">
+                    <h2>Examination Section</h2>
+                    <p>Examination details go here.</p>
                 </div>
             </section>
             <section class="section" id="assign">
@@ -129,6 +249,12 @@
                 <div class="container">
                     <h2>Reports Section</h2>
                     <p>Reports details go here.</p>
+                </div>
+            </section>
+            <section class="section" id="result">
+                <div class="container">
+                    <h2>Results Section</h2>
+                    <p>Results details go here.</p>
                 </div>
             </section>
 
@@ -168,7 +294,7 @@
     <script src="{% static 'anyi/main/js/styleSwitcher.js' %}"></script>
 
     <script>
-      function showSection(sectionId) {
+        function showSection(sectionId) {
             // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
@@ -183,6 +309,64 @@
             document.getElementById(sectionId).classList.add('active');
             document.querySelector(`.nav a[href="#${sectionId}"]`).classList.add('active');
         }
+
+
+
+        // Function to submit attendance and display the next term
+        function submitAttendance(term) {
+            const formId = `${term}-form`;
+            const form = document.getElementById(formId);
+            const formData = new FormData(form);
+
+            // Simulate sending data to the server (you'd replace this with an actual POST request)
+            fetch('/submit-attendance/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token for Django
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Hide the current term
+                        document.getElementById(`${term}-section`).classList.remove('active');
+
+                        // Show the next term section
+                        if (term === 'term1') {
+                            document.getElementById('term2-section').classList.add('active');
+                        } else if (term === 'term2') {
+                            document.getElementById('term3-section').classList.add('active');
+                        } else {
+                            alert("All terms completed!");
+                        }
+                    } else {
+                        alert('Error submitting attendance. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Something went wrong!');
+                });
+        }
+
+
+
+
+
+        // // Function to show the next term's section
+        // function showNextTerm(currentButtonId, nextSectionId) {
+        //     document.getElementById(currentButtonId).addEventListener("click", function () {
+        //         document.getElementById(nextSectionId).classList.add("active");
+        //         this.style.display = "none"; // Hide current button
+        //     });
+        // }
+
+        // // Setup buttons for each term
+        // showNextTerm("submit-term1", "term2-section");
+        // showNextTerm("submit-term2", "term3-section");
+
+
+
     </script>
 </body>
 
