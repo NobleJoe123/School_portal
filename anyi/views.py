@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .forms import UserForm, LoginForm, StudentForm, TeacherForm
 from django.contrib import messages
-from .models import Role, Admin, Bursal, Teacher, jss1, jss2, jss3, ss1, ss2, ss3
+from .models import Role, Admin, Bursal, Teacher, Student
 
 # Create your views here.
 
@@ -145,6 +145,18 @@ def add_teacher(request):
     else:
         form = TeacherForm()
     return render(request, "anyi/add_teacher.html", {"form": form})
+
+
+def add_student(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Replace with your actual redirect
+    else:
+        form = StudentForm()
+
+    return render(request, 'anyi/add_student.html', {'form': form})
 
 
 # DASHBOARDS STARTS
