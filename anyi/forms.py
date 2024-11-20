@@ -1,6 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Role, jss1, jss2, jss3, ss1, ss2, ss3, Teacher
+from django.db import IntegrityError
+from .models import Role, Student, Teacher
+import hashlib
 
 class UserForm(forms.Form):
     fname = forms.CharField(max_length=100)
@@ -31,48 +33,59 @@ class LoginForm(forms.Form):
 
 
 
-class StudentForm(forms.Form):
-    STUDENT_TYPE_CHOICES = [
-        ('jss1', 'jss1'),
-        ('jss2', 'jss2'),
-        ('jss3', 'jss3'),
-        ('ss1', 'ss1'),
-        ('ss2', 'ss2'),
-        ('ss3', 'ss3'),
-    ]
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = [
+            'fname', 'lname', 'mname', 'username', 'email', 'phonenum',
+            'password', 'state', 'country', 'lga', 'dob', 'guardianname',
+            'passport', 'address', 'student_class', 'department',
+        ]
 
-    firstname = forms.CharField(max_length=100)
-    surname = forms.CharField(max_length=100)
-    middlename = forms.CharField(max_length=100, required=False)
-    username = forms.CharField(max_length=100)
-    email = forms.EmailField()
-    phonenum = forms.CharField(max_length=15)
-    password = forms.CharField(widget=forms.PasswordInput)
-    state = forms.CharField(max_length=100)
-    country = forms.CharField(max_length=100)
-    lga = forms.CharField(max_length=100)
-    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-    guardianname = forms.CharField(max_length=100)
-    image = forms.ImageField()
-    classes = forms.ChoiceField(choices=STUDENT_TYPE_CHOICES)
+    # Custom field labels
+    labels = {
+        'fname': 'First Name',
+        'sname': 'Last Name',
+        'mname': 'Middle Name',
+        'student_class': 'Class',
+        'department': 'Department',
+        'dob': 'Date of Birth',
+        'guardianname': 'Guardian Name',
+    }
 
-    def save(self):
-        # Get cleaned data from the form
-        data = self.cleaned_data
-        student_type = data.pop('classes')  # Extract the dropdown value
+    # Add widgets for form styling
+    widgets = {
+        'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+        'dob': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+    }
 
-        # Determine which model to use based on dropdown selection
-        if student_type == 'jss1':
-            return jss1.objects.create(**data)
-        elif student_type == 'jss2':
-            return jss2.objects.create(**data)
-        elif student_type == 'jss3':
-            return jss3.objects.create(**data)
-        elif student_type == 'ss1':
-            return ss1.objects.create(**data)
-        elif student_type == 'ss2':
-            return ss2.objects.create(**data)
-        elif student_type == 'ss3':
-            return ss3.objects.create(**data)
-        else:
-            raise ValueError("Invalid student type selected")   
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Update department field dynamically
+        self.fields['department'].required = False
+
+        if 'student_class' in self.data:
+            student_class = self.data.get('student_class')
+            if student_class and student_class.startswith("SS"):  # If SS1, SS2, or SS3
+                self.fields['department'].required = True  # Make department required
+        elif self.instance and self.instance.student_class:
+            if self.instance.student_class.startswith("SS"):  # For editing existing data
+                self.fields['department'].required = True
+
+    # Override save method to generate adminum
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+    # Generate adminum or other unique values
+        unique_data = f"{instance.fname}{instance.lname}{instance.dob}"
+        instance.adminum = hashlib.sha256(unique_data.encode()).hexdigest()[:10]
+        
+        try:
+            if commit:
+                instance.save()
+        except IntegrityError:
+            raise ValidationError("A student with these details already exists.")
+        return instance
