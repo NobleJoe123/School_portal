@@ -105,142 +105,111 @@ class Role(models.Model):
 
     def __str__(self):
         return self.role_name
-    
 
 
-class jss1(models.Model):
-    firstname = models.CharField(max_length=100)
-    surname = models.CharField(max_length=100)
-    middlename = models.CharField(max_length=100, blank=True, null=True)
+
+class Student(models.Model):
+    CLASS_CHOICES = [
+        ("JSS1", "JSS1"),
+        ("JSS2", "JSS2"),
+        ("JSS3", "JSS3"),
+        ("SS1", "SS1"),
+        ("SS2", "SS2"),
+        ("SS3", "SS3"),
+    ]
+
+    DEPARTMENT_CHOICES = [
+        ("Science", "Science"),
+        ("Commercial", "Commercial"),
+        ("Art", "Art"),
+    ]
+
+    fname = models.CharField(max_length=100)
+    lname = models.CharField(max_length=100)
+    mname = models.CharField(max_length=100, blank=True, null=True)
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     phonenum = models.CharField(max_length=15)
+    mobilenum = models.CharField(max_length=15, blank=True, null=True)
     password = models.CharField(max_length=255)
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     lga = models.CharField(max_length=100)
     dob = models.DateField()
+    address = models.TextField()
     guardianname = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
+    passport = models.ImageField(upload_to='student_images/', blank=True, null=True)
+    student_class = models.CharField(max_length=5, choices=CLASS_CHOICES)
+    department = models.CharField(max_length=15, choices=DEPARTMENT_CHOICES)
+    adminum = models.CharField(max_length=20, unique=True, blank=True, editable=False)
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"jss1: {self.username}"
-    
+        return f"{self.lname}, {self.fname} ({self.student_class})"
 
-class jss2(models.Model):
-    firstname = models.CharField(max_length=100)
-    surname = models.CharField(max_length=100)
-    middlename = models.CharField(max_length=100, blank=True, null=True)
-    username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    phonenum = models.CharField(max_length=15)
-    password = models.CharField(max_length=255)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    lga = models.CharField(max_length=100)
-    dob = models.DateField()
-    guardianname = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
-    datetime = models.DateTimeField(auto_now_add=True)
+
+class JSS1(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name="jss1_student")
 
     def __str__(self):
-        return f"jss2: {self.username}"
-    
-class jss3(models.Model):
-    firstname = models.CharField(max_length=100)
-    surname = models.CharField(max_length=100)
-    middlename = models.CharField(max_length=100, blank=True, null=True)
-    username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    phonenum = models.CharField(max_length=15)
-    password = models.CharField(max_length=255)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    lga = models.CharField(max_length=100)
-    dob = models.DateField()
-    guardianname = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
-    datetime = models.DateTimeField(auto_now_add=True)
+        return f"JSS1: {self.student}"
+
+
+class JSS2(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name="jss2_student")
 
     def __str__(self):
-        return f"jss3: {self.username}"
-    
-# class ss1(models.Model):
-#     firstname = models.CharField(max_length=100)
-#     surname = models.CharField(max_length=100)
-#     middlename = models.CharField(max_length=100, blank=True, null=True)
-#     username = models.CharField(max_length=100, unique=True)
-#     email = models.EmailField(max_length=255, unique=True)
-#     phonenum = models.CharField(max_length=15)
-#     password = models.CharField(max_length=255)
-#     state = models.CharField(max_length=100)
-#     country = models.CharField(max_length=100)
-#     lga = models.CharField(max_length=100)
-#     dob = models.DateField()
-#     guardianname = models.CharField(max_length=100)
-#     image = models.ImageField(upload_to='student_images/', blank=True, null=True)
-#     datetime = models.DateTimeField(auto_now_add=True)
+        return f"JSS2: {self.student}"
 
-#     def __str__(self):
-#         return f"ss1: {self.username}"
-    
-class ss1(models.Model):
-    firstname = models.CharField(max_length=100)
-    surname = models.CharField(max_length=100)
-    middlename = models.CharField(max_length=100, blank=True, null=True)
-    username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    phonenum = models.CharField(max_length=15)
-    password = models.CharField(max_length=255)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    lga = models.CharField(max_length=100)
-    dob = models.DateField()
-    guardianname = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
-    datetime = models.DateTimeField(auto_now_add=True)
+
+class JSS3(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name="jss3_student")
 
     def __str__(self):
-        return f"ss1: {self.username}"
-    
-class ss2(models.Model):
-    firstname = models.CharField(max_length=100)
-    surname = models.CharField(max_length=100)
-    middlename = models.CharField(max_length=100, blank=True, null=True)
-    username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    phonenum = models.CharField(max_length=15)
-    password = models.CharField(max_length=255)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    lga = models.CharField(max_length=100)
-    dob = models.DateField()
-    guardianname = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
-    datetime = models.DateTimeField(auto_now_add=True)
+        return f"JSS3: {self.student}"
+
+
+class SS1(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name="ss1_student")
 
     def __str__(self):
-        return f"ss2: {self.username}"
-    
+        return f"SS1: {self.student}"
 
-class ss3(models.Model):
-    firstname = models.CharField(max_length=100)
-    surname = models.CharField(max_length=100)
-    middlename = models.CharField(max_length=100, blank=True, null=True)
-    username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    phonenum = models.CharField(max_length=15)
-    password = models.CharField(max_length=255)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    lga = models.CharField(max_length=100)
-    dob = models.DateField()
-    guardianname = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='student_images/', blank=True, null=True)
-    datetime = models.DateTimeField(auto_now_add=True)
+
+class SS2(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name="ss2_student")
 
     def __str__(self):
-        return f"ss3: {self.username}"
+        return f"SS2: {self.student}"
+
+
+class SS3(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name="ss3_student")
+
+    def __str__(self):
+        return f"SS3: {self.student}"
+
+
+class Science(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name="science_student")
+
+    def __str__(self):
+        return f"Science: {self.student}"
+
+
+class Commercial(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name="commercial_student")
+
+    def __str__(self):
+        return f"Commercial: {self.student}"
+
+
+class Art(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name="art_student")
+
+    def __str__(self):
+        return f"Art: {self.student}"
+
+
 
 
