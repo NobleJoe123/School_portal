@@ -38,7 +38,8 @@ class Teacher(models.Model):
     fname = models.CharField(max_length=50, verbose_name="First Name",  null=True, blank=True)
     sname = models.CharField(max_length=50, verbose_name="Surname",  null=True, blank=True)
     mname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Middle Name")
-    age = models.PositiveIntegerField(verbose_name="Age",  null=True, blank=True)
+    username = models.CharField(max_length=50, blank=True, null=True, verbose_name="Username")
+    dob = models.DateField(verbose_name="Dob",  null=True, blank=True)
     phone = models.CharField(max_length=15, verbose_name="Phone Number",  null=True, blank=True)
     sex = models.CharField(
         max_length=6,
