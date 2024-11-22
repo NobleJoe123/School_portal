@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from .forms import UserForm, LoginForm, StudentForm, TeacherForm
+from .forms import UserForm, LoginForm, StudentForm
 from django.contrib import messages
 from .models import Role, Admin, Bursal, Teacher, Student
 
@@ -105,25 +105,27 @@ def bursal_login(request):
         
     return render(request, 'anyi/bursal_login.html', {'form':form})
         
-
 def teacher_login(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = LoginForm(request.POST)  # Use the LoginForm for authentication
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            teacher_user = Teacher.objects.filter(username=username, password=password).first()
-            if teacher_user:
+            
+            # Fetch the teacher by username and check the password
+            teacher_user = Teacher.objects.filter(phone=username).first()
+            if teacher_user and teacher_user.password == password:  # Replace with hashed password check if necessary
+                # Store the teacher's role and ID in the session
                 request.session['role'] = 'Teacher'
                 request.session['user_id'] = teacher_user.id
-                return redirect('teacher_dashboard')  # Redirect to teacher dashboard
-            
+                messages.success(request, 'Login successful!')
+                return redirect('teacher_dashboard')  # Redirect to the teacher's dashboard
             else:
                 messages.error(request, 'Invalid username or password')
     else:
-        form = LoginForm()
+        form = LoginForm()  # Render an empty login form for GET requests
         
-    return render(request, 'anyi/teacher_login.html', {'form':form})
+    return render(request, 'anyi/teacher_login.html', {'form': form})
 
 
 # login ends
