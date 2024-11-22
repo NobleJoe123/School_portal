@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from .forms import UserForm, LoginForm, StudentForm
+from .forms import UserForm, LoginForm, StudentForm, TeacherForm
 from django.contrib import messages
 from .models import Role, Admin, Bursal, Teacher, Student
 
