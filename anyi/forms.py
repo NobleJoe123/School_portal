@@ -16,13 +16,13 @@ class UserForm(forms.Form):
 
 
 
-# # class TeacherForm(forms.ModelForm):
-# #     class Meta:
-# #         model = Teacher
-# #         fields = ['username', 'password']
-# #         widgets = {
-# #             'password': forms.PasswordInput(),
-#         }
+class TeacherForm(forms.ModelForm):
+    class Meta:
+        model = Teacher
+        fields = "__all__"
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
 
 
 
