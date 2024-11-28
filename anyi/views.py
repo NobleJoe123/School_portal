@@ -21,8 +21,8 @@ def courses (request):
 def admin_register(request):
     return render(request, 'anyi/admin_register.html')
 
-def teacher_board(request):
-    return render(request, 'bursal_dashboard.html')
+# def teacher_board(request):
+#     return render(request, 'bursal_dashboard.html')
 
 
 # login session
@@ -113,7 +113,7 @@ def teacher_login(request):
             password = form.cleaned_data['password']
             
             # Fetch the teacher by username and check the password
-            teacher_user = Teacher.objects.filter(phone=username).first()
+            teacher_user = Teacher.objects.filter(username=username).first()
             if teacher_user and teacher_user.password == password:  # Replace with hashed password check if necessary
                 # Store the teacher's role and ID in the session
                 request.session['role'] = 'Teacher'
@@ -143,7 +143,7 @@ def add_teacher(request):
         form = TeacherForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect("success")  # Replace with your success page
+            return redirect("teacher_login")  # Replace with your success page
     else:
         form = TeacherForm()
     return render(request, "anyi/add_teacher.html", {"form": form})
@@ -220,44 +220,110 @@ def bursal_dashboard(request):
 
 
 def teacher_dashboard(request):
-
-    user_id = request.session.get('user_id')
     
-    if not user_id:
+    teacher_id = request.session.get('user_id')
+    if not teacher_id:
         return redirect('teacher_login')
     
-    teacher = None
-    for model in [Teacher]:
-        try:
-            teacher = model.objects.get(id=user_id)
-            break
-        except model.DoesNotExist:
-            continue
+    teacher = Teacher.objects.get(id=teacher_id)
 
-    if not teacher:
-        messages.error(request, "Teacher not found.")
-        return redirect('teacher_login')
-    
 
-    # teacher_user_id = teacher.user_id  # Assuming Teacher model has `class_id`
-    # students = ss3.objects.filter(user_id=teacher_user_id)
+    ss1_students = Student.objects.none()
+    ss2_students = Student.objects.none()
+    ss3_students = Student.objects.none()
+    jss1_students = Student.objects.none()
+    jss2_students = Student.objects.none()
+    jss3_students = Student.objects.none()
 
-    students = ss3.objects.all()  # Or filter as needed
 
-    weeks = range(1, 15)
-    check = range(5)
-    
+    # ss1_students = Student.objects.filter(student_class="SS1", department__contains=teacher.subject_teacher)
+    # ss2_students = Student.objects.filter(student_class="SS2", department__contains=teacher.subject_teacher)
+    # ss3_students = Student.objects.filter(student_class="SS3", department__contains=teacher.subject_teacher)
+
+
+    weeks = range(1, 13)
+    check = range(1, 6)
+
+    # Initialize empty QuerySets
+    subject_students = Student.objects.none()
+    class_students = Student.objects.none()
+
+    # Mapping subjects to departments and classes
+    science_subjects = [
+        "Mathematics", "English Language", "Civic Education", "Computer Studies",
+        "Biology", "Physics", "Chemistry", "Further Mathematics",
+        "Technical Drawing", "Economics", "Geography", "Data Processing", "Marketing",
+    ]
+    art_subjects = [
+        "Mathematics", "English Language", "Civic Education", "Computer Studies",
+        "Literature – in- English", "Government", "History", "Islamic Religion Knowledge",
+        "Christian Religion Knowledge", "Data Processing", "Marketing", "Book-keeping", "Economics",
+    ]
+    commercial_subjects = [
+        "Mathematics", "English Language", "Civic Education", "Computer Studies",
+        "Accounting", "Commerce", "Marketing", "Economics", "Book-keeping",
+    ]
+    junior_subjects = [
+        "Mathematics", "English Language", "Civic Education", "Computer Studies",
+        "Basic Science", "Social Studies", "Fine Arts/Creative Art", "Agricultural Science",
+        "Christian Religion Studies", "Physical and Health Education", "Business Studies",
+        "French", "Home Economics", "Basic Technology", "Nigerian Language",
+    ]
+
+    # Filter students based on teacher's subject
+    if teacher.subject_teacher:
+        if teacher.subject_teacher in science_subjects:
+            subject_students = Student.objects.filter(department="Science")
+        elif teacher.subject_teacher in art_subjects:
+            subject_students = Student.objects.filter(department="Art")
+        elif teacher.subject_teacher in commercial_subjects:
+            subject_students = Student.objects.filter(department="Commercial")
+        elif teacher.subject_teacher in junior_subjects:
+            # Assuming teacher's `class_teacher` indicates specific junior classes
+            if teacher.class_teacher in ["JSS1", "JSS2", "JSS3"]:
+                subject_students = Student.objects.filter(student_class=teacher.class_teacher)
+
+    # Filter students in the teacher's assigned class
+    if teacher.class_teacher:
+        class_students = Student.objects.filter(student_class=teacher.class_teacher)
+
+    if teacher.subject_teacher in science_subjects:
+        ss1_students = Student.objects.filter(student_class="SS1", department="Science")
+        ss2_students = Student.objects.filter(student_class="SS2", department="Science")
+        ss3_students = Student.objects.filter(student_class="SS3", department="Science")
+    elif teacher.subject_teacher in art_subjects:
+        ss1_students = Student.objects.filter(student_class="SS1", department="Art")
+        ss2_students = Student.objects.filter(student_class="SS2", department="Art")
+        ss3_students = Student.objects.filter(student_class="SS3", department="Art")
+    elif teacher.subject_teacher in commercial_subjects:
+        ss1_students = Student.objects.filter(student_class="SS1", department="Commercial")
+        ss2_students = Student.objects.filter(student_class="SS2", department="Commercial")
+        ss3_students = Student.objects.filter(student_class="SS3", department="Commercial")
+    elif teacher.subject_teacher in junior_subjects:
+        jss1_students = Student.objects.filter(student_class="JSS1")
+        jss2_students = Student.objects.filter(student_class="JSS2")
+        jss3_students = Student.objects.filter(student_class="JSS3")
+
+
+      
+
+    # Render the dashboard with relevant students
     context = {
-        "data": students,
-        "weeks": weeks,  # Pass the weeks range to the template
-        "check": check,
-        'firstname': teacher.fname ,
-        'surname': teacher.sname,
-        'image_url': teacher.passport.url if teacher.passport else None 
+        'teacher': teacher,
+        'ss1_students': ss1_students,
+        'ss2_students': ss2_students,
+        'ss3_students': ss3_students,
+        'jss1_students': jss1_students,
+        'jss2_students': jss2_students,
+        'jss3_students': jss3_students,
+        'subject_students': subject_students,
+        'class_students': class_students,
+        'weeks' : weeks,
+        'check' : check,
+        'image_url' : teacher.passport.url if teacher.passport else None,
     }
-
-
     return render(request, 'anyi/teacher_dashboard.html', context)
+
 
 
 def admin_dashboard(request):
