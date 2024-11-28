@@ -40,16 +40,16 @@
         <!-- Sidebar Navigation -->
         <aside class="aside">
             <div class="logo">
-                <a href="{% url 'home' %}">{{ firstname }} {{ surname }}</a>
+                <a href="{% url 'home' %}">{{ teacher.fname }} {{ teacher.sname }}</a>
             </div>
             <div class="nav-toggle"><span></span></div>
             <ul class="nav">
                 <li><a href="#profile" onclick="showSection('profile')" class="active"><i
                             class="fa fa-user"></i>Profile</a></li>
                 <li><a href="#atten" onclick="showSection('atten')"><i class="fa fa-calendar"></i>Attendance</a></li>
-                <li class="dropdown"><button class="dropbtn"><a href="#test" onclick="showSection('test')"><i
-                                class="fa fa-book"></i>Test<i class="fa fa-caret-down"></i></a></button>
-                    <!-- <div class="dropdown-content">
+                <li class="dropdown"><a href="#test" onclick="showSection('test')"><i class="fa fa-book"></i>Test</a>
+                </li>
+                <!-- <div class="dropdown-content">
                         <a href="#ca1">CA1</a>
                         <a href="#ca2">CA2</a>
                         <a href="#ca3">CA3</a>
@@ -77,7 +77,7 @@
                     <div class="intro">
                         <img src="{{ image_url }}" alt="Profile Picture" class="shadow-dark" width="120px"
                             height="120px" style="border-radius: 60px;">
-                        <h1>{{ firstname }} {{ surname }}</h1>
+                        <h1>{{ teacher.fname }} {{ teacher.sname }}</h1>
                         <div class="social-links">
                             <a href="https://twitter.com/kalexdonia93" target="_blank"><i class="fa fa-twitter"></i></a>
                             <a href="https://www.facebook.com/john.adeyemi2/" target="_blank"><i
@@ -95,7 +95,7 @@
             <section class="section" id="atten">
                 <div class="container atten">
                     <div id="term1-section" class="term-section active">
-                        <h2>1st Term Attendance</h2>
+                        <h2>{{ teacher.class_teacher }} 1st Term Attendance</h2>
                         <form id="term1-form">
                             <table>
                                 <thead>
@@ -108,10 +108,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for student in data %}
+                                    {% for student in class_students %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
-                                        <td>{{ student.firstname }} {{ student.surname }}</td>
+                                        <td>{{ student.fname }} {{ student.lname }}</td>
                                         {% for week in weeks %}
                                         <td>
                                             <div class="checkbox-group">
@@ -127,13 +127,14 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            <button type="button" class="termbtn" onclick="submitAttendance('term1')">Submit 1st Term</button>
+                            <button type="button" class="termbtn" onclick="submitAttendance('term1')">Submit 1st
+                                Term</button>
                         </form>
                     </div>
 
                     <!-- Second Term Section -->
                     <div id="term2-section" class="term-section">
-                        <h2>2nd Term Attendance</h2>
+                        <h2>{{ teacher.class_teacher }} 2nd Term Attendance</h2>
                         <form id="term2-form">
                             <table>
                                 <thead>
@@ -146,10 +147,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for student in data %}
+                                    {% for student in class_students %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
-                                        <td>{{ student.firstname }} {{ student.surname }}</td>
+                                        <td>{{ student.fname }} {{ student.lname }}</td>
                                         {% for week in weeks %}
                                         <td>
                                             <div class="checkbox-group">
@@ -165,13 +166,14 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            <button type="button" class="termbtn" onclick="submitAttendance('term2')">Submit 2nd Term</button>
+                            <button type="button" class="termbtn" onclick="submitAttendance('term2')">Submit 2nd
+                                Term</button>
                         </form>
                     </div>
 
                     <!-- Third Term Section -->
                     <div id="term3-section" class="term-section">
-                        <h2>3rd Term Attendance</h2>
+                        <h2>{{ teacher.class_teacher }} 3rd Term Attendance</h2>
                         <form id="term3-form">
                             <table>
                                 <thead>
@@ -184,10 +186,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for student in data %}
+                                    {% for student in class_students %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
-                                        <td>{{ student.firstname }} {{ student.surname }}</td>
+                                        <td>{{ student.fname }} {{ student.lname }}</td>
                                         {% for week in weeks %}
                                         <td>
                                             <div class="checkbox-group">
@@ -203,90 +205,402 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            <button type="button" class="termbtn" onclick="submitAttendance('term3')">Submit 3rd Term</button>
+                            <button type="button" class="termbtn" onclick="submitAttendance('term3')">Submit 3rd
+                                Term</button>
                         </form>
                     </div>
                 </div>
             </section>
 
             <section class="section" id="test">
-                <div class="container">
-                    <h2>Test Section</h2>
-                    <p>Test details go here.</p>
+                <div class="container test">
+                    <h2>{{ teacher.subject_teacher }} Test</h2>
+                    <div class="cards">
+                        {% if jss1_students or jss2_students or jss3_students %}
+                        <div class="card" id="jss1-card">
+                            <h3>JSS1</h3>
+                            <p>{{ jss1_students.count }} Students</p>
+                            <button onclick="toggleInput('jss1')">View</button>
+                        </div>
+                        <div class="card" id="jss2-card">
+                            <h3>JSS2</h3>
+                            <p>{{ jss2_students.count }} Students</p>
+                            <button onclick="toggleInput('jss2')">View</button>
+                        </div>
+                        <div class="card" id="jss3-card">
+                            <h3>JSS3</h3>
+                            <p>{{ jss3_students.count }} Students</p>
+                            <button onclick="toggleInput('jss3')">View</button>
+                        </div>
+                        {% else %}
+                        <div class="card" id="ss1-card">
+                            <h3>SS1</h3>
+                            <p>{{ ss1_students.count }} Students </p>
+                            <button onclick="toggleInput('ss1')">View</button>
+                        </div>
+                        <div class="card" id="ss2-card">
+                            <h3>SS2</h3>
+                            <p>{{ ss2_students.count }} Students</p>
+                            <button onclick="toggleInput('ss2')">View</button>
+                        </div>
+                        <div class="card" id="ss3-card">
+                            <h3>SS3</h3>
+                            <p>{{ ss3_students.count }} Students</p>
+                            <button onclick="toggleInput('ss3')">View</button>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- SS1 Students -->
+                    <div id="jss1-input" class="student-list" style="display:none;">
+                        <h3>JSS1 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
+                            <input type="hidden" name="student_class" value="JSS1">
+                            <label>Import Test</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in jss1_students %}
+                            {% empty %}
+                            <li>No students found for JSS1.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- jSS2 Students -->
+                    <div id="jss2-input" class="student-list" style="display:none;">
+                        <h3>JSS2 Students
+                            <div class="line"></div>
+                        </h3>
+                        
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
+                            <input type="hidden" name="student_class" value="JSS2">
+                            <label>Import Test</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in jss2_students %}
+                            {% empty %}
+                            <li>No students found for JSS2.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- jSS3 Students -->
+                    <div id="jss3-input" class="student-list" style="display:none;">
+                        <h3>JSS3 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
+                            <input type="hidden" name="student_class" value="JSS3">
+                            <label>Import Test</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in jss3_students %}
+                            {% empty %}
+                            <li>No students found for JSS3.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div id="ss1-input" style="display:none;">
+                        <h3>SS1 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
+                            <input type="hidden" name="student_class" value="SS1">
+                            <label>Import Test</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in ss1_students %}
+                            {% empty %}
+                            <li>No students found for SS1.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div id="ss2-input" style="display:none;">
+                        <h3>SS2 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
+                            <input type="hidden" name="student_class" value="SS1">
+                            <label>Import Test</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in ss1_students %}
+                            {% empty %}
+                            <li>No students found for SS2.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div id="ss3-input" style="display:none;">
+                        <h3>SS3 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
+                            <input type="hidden" name="student_class" value="SS1">
+                            <label>Import Test</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in ss1_students %}
+                            {% empty %}
+                            <li>No students found for SS3.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </section>
             <section class="section" id="exam">
-                <div class="container">
-                    <h2>Examination Section</h2>
-                    <p>Examination details go here.</p>
-                </div>
-            </section>
-            <section class="section" id="assign">
-                <div class="container">
-                    <h2>Assignment Section</h2>
-                    <p>Assignment details go here.</p>
-                </div>
-            </section>
-            <section class="section" id="news">
-                <div class="container">
-                    <h2>News Section</h2>
-                    <p>News details go here.</p>
-                </div>
-            </section>
-            <section class="section" id="message">
-                <div class="container">
-                    <h2>Messages Section</h2>
-                    <p>Messages details go here.</p>
-                </div>
-            </section>
-            <section class="section" id="notify">
-                <div class="container">
-                    <h2>Notification Section</h2>
-                    <p>Notification details go here.</p>
-                </div>
-            </section>
-            <section class="section" id="report">
-                <div class="container">
-                    <h2>Reports Section</h2>
-                    <p>Reports details go here.</p>
-                </div>
-            </section>
-            <section class="section" id="result">
-                <div class="container">
-                    <h2>Results Section</h2>
-                    <p>Results details go here.</p>
-                </div>
-            </section>
+                <div class="container exam">
+                    <h2>{{ teacher.subject_teacher }} Exams</h2>
+                    <div class="cards">
+                        {% if jss1_students or jss2_students or jss3_students %}
+                        <div class="card" >
+                            <h3>JSS1</h3>
+                            <p>{{ jss1_students.count }} Students</p>
+                            <button onclick="toggleCard('jss1')">View</button>
+                        </div>
+                        <div class="card" >
+                            <h3>JSS2</h3>
+                            <p>{{ jss2_students.count }} Students</p>
+                            <button onclick="toggleCard('jss2')">View</button>
+                        </div>
+                        <div class="card" >
+                            <h3>JSS3</h3>
+                            <p>{{ jss3_students.count }} Students</p>
+                            <button onclick="toggleCard('jss3')">View</button>
+                        </div>
+                        {% else %}
+                        <!-- SS1 Card -->
+                        <div class="card">
+                            <h3>SS1</h3>
+                            <p>{{ ss1_students.count }} Students</p>
+                            <button onclick="toggleCard('ss1')">View</button>
+                        </div>
 
+                        <!-- SS2 Card -->
+                        <div class="card">
+                            <h3>SS2</h3>
+                            <p>{{ ss2_students.count }} Students</p>
+                            <button onclick="toggleCard('ss2')">View</button>
+                        </div>
 
+                        <!-- SS3 Card -->
+                        <div class="card">
+                            <h3>SS3</h3>
+                            <p>{{ ss3_students.count }} Students</p>
+                            <button onclick="toggleCard('ss3')">View</button>
+                        </div>
+                        {% endif %}
+                    </div>
 
-            <!-- Add more sections as needed -->
+                    <!-- SS1 Students -->
+                    <div id="jss1-students" class="student-list" style="display:none;">
+                        <h3>JSS1 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
+                            <input type="hidden" name="student_class" value="JSS1">
+                            <label>Import Exam</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in jss1_students %}
+                            {% empty %}
+                            <li>No students found for JSS1.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-            <!-- Style Switcher -->
-            <div class="style-switcher">
-                <div class="toggle-style-switcher"><i class="fa fa-cog fa-spin"></i></div>
-                <h5>Style Switcher</h5>
-                <ul>
-                    <li><a href="Javascript:void(0);" title="pink" style="background-color: #ec1839"
-                            onclick="setActiveStyle('pink')"></a></li>
-                    <li><a href="Javascript:void(0);" title="blue" style="background-color: #0dcaf0"
-                            onclick="setActiveStyle('blue')"></a></li>
-                    <li><a href="Javascript:void(0);" title="orange" style="background-color: #fa5b0f"
-                            onclick="setActiveStyle('orange')"></a></li>
-                    <li><a href="Javascript:void(0);" title="yellow" style="background-color: #ffb400"
-                            onclick="setActiveStyle('yellow')"></a></li>
-                    <li><a href="Javascript:void(0);" title="green" style="background-color: #72b626"
-                            onclick="setActiveStyle('green')"></a></li>
-                </ul>
-                <h5>Body Skin</h5>
-                <label>
-                    <input type="radio" class="body-skin" name="body-style" value="light" checked="true"> Light
-                </label>
-                <label>
-                    <input type="radio" class="body-skin" name="body-style" value="dark"> Dark
-                </label>
-            </div>
+                    <!-- jSS2 Students -->
+                    <div id="jss2-students" class="student-list" style="display:none;">
+                        <h3>JSS2 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
+                            <input type="hidden" name="student_class" value="JSS2">
+                            <label>Import Exam</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in jss2_students %}
+                            {% empty %}
+                            <li>No students found for JSS2.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- jSS3 Students -->
+                    <div id="jss3-students" class="student-list" style="display:none;">
+                        <h3>JSS3 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
+                            <input type="hidden" name="student_class" value="JSS3">
+                            <label>Import Exam</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in jss3_students %}
+                            {% empty %}
+                            <li>No students found for JSS3.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div id="ss1-students" class="student-list" style="display:none;">
+                        <h3>SS1 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
+                            <input type="hidden" name="student_class" value="SS1">
+                            <label>Import Exam</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in ss1_students %}
+                            {% empty %}
+                            <li>No students found for SS1.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- SS2 Students -->
+                    <div id="ss2-students" class="student-list" style="display:none;">
+                        <h3>SS2 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
+                            <input type="hidden" name="student_class" value="SS2">
+                            <label>Import Exam</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in ss2_students %}
+                            {% empty %}
+                            <li>No students found for SS2.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- SS3 Students -->
+                    <div id="ss3-students" class="student-list" style="display:none;">
+                        <h3>SS3 Students</h3>
+                        <div class="line"></div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
+                            <input type="hidden" name="student_class" value="SS3">
+                            <label>Import Exam</label>
+                            <input type="file" name="grades_file" class="import">
+                            <button type="submit" name="submit_exam">Submit</button>
+                        </form>
+                        <ul>
+                            {% for student in ss3_students %}
+                            {% empty %}
+                            <li>No students found for SS3.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
         </div>
+        </section>
+        <section class="section" id="assign">
+            <div class="container">
+                <h2>Assignment Section</h2>
+                <p>Assignment details go here.</p>
+            </div>
+        </section>
+        <section class="section" id="news">
+            <div class="container">
+                <h2>News Section</h2>
+                <p>News details go here.</p>
+            </div>
+        </section>
+        <section class="section" id="message">
+            <div class="container">
+                <h2>Messages Section</h2>
+                <p>Messages details go here.</p>
+            </div>
+        </section>
+        <section class="section" id="notify">
+            <div class="container">
+                <h2>Notification Section</h2>
+                <p>Notification details go here.</p>
+            </div>
+        </section>
+        <section class="section" id="report">
+            <div class="container">
+                <h2>Reports Section</h2>
+                <p>Reports details go here.</p>
+            </div>
+        </section>
+        <section class="section" id="result">
+            <div class="container">
+                <h2>Results Section</h2>
+                <p>Results details go here.</p>
+            </div>
+        </section>
+
+
+
+        <!-- Add more sections as needed -->
+
+        <!-- Style Switcher -->
+        <div class="style-switcher">
+            <div class="toggle-style-switcher"><i class="fa fa-cog fa-spin"></i></div>
+            <h5>Style Switcher</h5>
+            <ul>
+                <li><a href="Javascript:void(0);" title="pink" style="background-color: #ec1839"
+                        onclick="setActiveStyle('pink')"></a></li>
+                <li><a href="Javascript:void(0);" title="blue" style="background-color: #0dcaf0"
+                        onclick="setActiveStyle('blue')"></a></li>
+                <li><a href="Javascript:void(0);" title="orange" style="background-color: #fa5b0f"
+                        onclick="setActiveStyle('orange')"></a></li>
+                <li><a href="Javascript:void(0);" title="yellow" style="background-color: #ffb400"
+                        onclick="setActiveStyle('yellow')"></a></li>
+                <li><a href="Javascript:void(0);" title="green" style="background-color: #72b626"
+                        onclick="setActiveStyle('green')"></a></li>
+            </ul>
+            <h5>Body Skin</h5>
+            <label>
+                <input type="radio" class="body-skin" name="body-style" value="light" checked="true"> Light
+            </label>
+            <label>
+                <input type="radio" class="body-skin" name="body-style" value="dark"> Dark
+            </label>
+        </div>
+    </div>
     </div>
 
     <!-- JavaScript -->
@@ -349,9 +663,15 @@
                 });
         }
 
+        function toggleCard(classId) {
+            document.querySelectorAll('.student-list').forEach(div => div.style.display = 'none');
+            document.getElementById(classId + '-students').style.display = 'block';
+        }
 
-
-
+        function toggleInput(section) {
+            document.querySelectorAll('div[id$="-input"]').forEach(div => div.style.display = "none");
+            document.getElementById(section + "-input").style.display = "block";
+        }
 
         // // Function to show the next term's section
         // function showNextTerm(currentButtonId, nextSectionId) {
