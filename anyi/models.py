@@ -85,12 +85,13 @@ class Teacher(models.Model):
         ("Accounting", "Accounting"),
         ("Commerce", "Commerce"),
         ("Book-keeping", "Book-keeping"),
+        ("Marketing", "Marketing"),
         ("Data Processing", "Data Processing"),
         ("Economics", "Economics"),
         ("Government", "Government"),
         ("Literature – in- English", "Literature – in- English"),
         ("Christian Religion Knowledge", "Christian Religion Knowledge"),
-        ("Fine Art/Creative Art", "Fine Art/Creative Art"),
+        ("Islamic Religion Knowledge", "Islamic Religion Knowledge"),
         ("Geography", "Geography"),
     ]
     subject_teacher = models.CharField(max_length=50, choices=SUBJECT_CHOICES, verbose_name="Subject Teacher",  null=True, blank=True)
