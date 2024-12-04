@@ -10,7 +10,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{% static 'anyi/css/hide.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'anyi/main/css/drop.css' %}">
+    <link rel="stylesheet" href="{% static 'anyi/main/css/main.css' %}">
     <link rel="stylesheet" class="alternate-style" title="pink" href="{% static 'anyi/main/css/skins/pink.css' %}"
         type="text/css" disabled>
 
@@ -87,7 +87,7 @@
                                     class="fa fa-linkedin"></i></a><br>
                             <button class="edit">Update</button>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </section>
 
@@ -215,61 +215,243 @@
             <section class="section" id="test">
                 <div class="container test">
                     <h2>{{ teacher.subject_teacher }} Test</h2>
-
-                    <!-- Cards for Classes -->
                     <div class="cards">
                         {% if jss1_students or jss2_students or jss3_students %}
                         <div class="card" id="jss1-card">
                             <h3>JSS1</h3>
                             <p>{{ jss1_students.count }} Students</p>
-                            <button onclick="showTable('JSS1')">View</button>
+                            <button onclick="showTable('{{ jss1 }}')">View</button>
                         </div>
                         <div class="card" id="jss2-card">
                             <h3>JSS2</h3>
                             <p>{{ jss2_students.count }} Students</p>
-                            <button onclick="showTable('JSS2')">View</button>
+                            <button onclick="showTable('{{ jss2 }}')">View</button>
                         </div>
                         <div class="card" id="jss3-card">
                             <h3>JSS3</h3>
                             <p>{{ jss3_students.count }} Students</p>
-                            <button onclick="showTable('JSS3')">View</button>
+                            <button onclick="showTable('{{ jss3 }}')">View</button>
                         </div>
                         {% else %}
                         <div class="card" id="ss1-card">
                             <h3>SS1</h3>
-                            <p>{{ ss1_students.count }} Students</p>
-                            <button onclick="showTable('SS1')">View</button>
+                            <p>{{ ss1_students.count }} Students </p>
+                            <button onclick="showTable('{{ ss1 }}')">View</button>
                         </div>
                         <div class="card" id="ss2-card">
                             <h3>SS2</h3>
                             <p>{{ ss2_students.count }} Students</p>
-                            <button onclick="showTable('SS2')">View</button>
+                            <button onclick="showTable('{{ ss2 }}')">View</button>
                         </div>
                         <div class="card" id="ss3-card">
                             <h3>SS3</h3>
                             <p>{{ ss3_students.count }} Students</p>
-                            <button onclick="showTable('SS3')">View</button>
+                            <button onclick="showTable('{{ ss3 }}')">View</button>
                         </div>
                         {% endif %}
                     </div>
+                    <div class="term-navigation">
+                        <button id="prevTerm" onclick="toggleTerm(-1)" style="display: none;">Previous Term</button>
+                        <button id="nextTerm" onclick="toggleTerm(1)" style="display: none;">Next Term</button>
+                    </div>
 
-                    <!-- CA Table -->
+
                     <div id="tables-container">
-                        {% for class_name, students in class_students.items %}
-                        <table id="table-{{ class_name }}" class="ca-table" style="display: none;">
+                        {% for students in class_students %}
+                        <table id="table-{{ jss1 }}" class="ca-table" style="display: none;">
                             <thead>
                                 <tr>
                                     <th>Student Name</th>
-                                    <th>CA1</th>
-                                    <th>CA2</th>
-                                    <th>CA3</th>
-                                    <th>CA4</th>
+                                    <th>CA-1</th>
+                                    <th>CA-2</th>
+                                    <th>CA-3</th>
+                                    <th>CA-4</th>
                                     <th>Total</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for student in students %}
+                                {% for student in subject_students %}
+                                <tr>
+                                    <td>{{ student.fname }} {{ student.lname }}</td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><span class="total-score">0</span></td>
+                                    <td>
+                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+                    <div id="tables-container">
+                        {% for students in class_students %}
+                        <table id="table-{{ jss2 }}" class="ca-table" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>CA-1</th>
+                                    <th>CA-2</th>
+                                    <th>CA-3</th>
+                                    <th>CA-4</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in subject_students %}
+                                <tr>
+                                    <td>{{ student.fname }} {{ student.lname }}</td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><span class="total-score">0</span></td>
+                                    <td>
+                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+                    <div id="tables-container">
+                        {% for students in class_students %}
+                        <table id="table-{{ jss3 }}" class="ca-table" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>CA-1</th>
+                                    <th>CA-2</th>
+                                    <th>CA-3</th>
+                                    <th>CA-4</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in subject_students %}
+                                <tr>
+                                    <td>{{ student.fname }} {{ student.lname }}</td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><span class="total-score">0</span></td>
+                                    <td>
+                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+                    <div id="tables-container">
+                        {% for students in class_students %}
+                        <table id="table-{{ ss1 }}" class="ca-table" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>CA-1</th>
+                                    <th>CA-2</th>
+                                    <th>CA-3</th>
+                                    <th>CA-4</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in subject_students %}
+                                <tr>
+                                    <td>{{ student.fname }} {{ student.lname }}</td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><span class="total-score">0</span></td>
+                                    <td>
+                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+                    <div id="tables-container">
+                        {% for students in class_students %}
+                        <table id="table-{{ ss2 }}" class="ca-table" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>CA-1</th>
+                                    <th>CA-2</th>
+                                    <th>CA-3</th>
+                                    <th>CA-4</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in subject_students %}
+                                <tr>
+                                    <td>{{ student.fname }} {{ student.lname }}</td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><span class="total-score">0</span></td>
+                                    <td>
+                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+                    <div id="tables-container">
+                        {% for students in class_students %}
+                        <table id="table-{{ ss3 }}" class="ca-table" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>CA-1</th>
+                                    <th>CA-2</th>
+                                    <th>CA-3</th>
+                                    <th>CA-4</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in subject_students %}
                                 <tr>
                                     <td>{{ student.fname }} {{ student.lname }}</td>
                                     <td><input type="number" class="ca-score" data-max="10"
@@ -293,8 +475,9 @@
 
                     <!-- Submit Button -->
                     <div id="submit-container" style="display: none;">
-                        <button onclick="submitScores()">Submit Scores</button>
+                        <button onclick="submitScores()"  class="termbtn">Submit Scores</button>
                     </div>
+
                 </div>
             </section>
             <section class="section" id="exam">
