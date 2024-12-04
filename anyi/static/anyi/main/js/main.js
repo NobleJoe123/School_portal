@@ -230,3 +230,59 @@ let currentTerm = 1;
         console.log('Submitting data:', data);
         // TODO: Send data to the server via AJAX
     }
+
+
+    // Show Table Based on Selected Class
+function showTable(className) {
+    const tables = document.querySelectorAll('.ca-table');
+    tables.forEach((table) => {
+        table.style.display = table.id === `table-${className}` ? 'table' : 'none';
+    });
+
+    // Show submit button
+    document.getElementById('submit-container').style.display = 'block';
+}
+
+// Calculate Total CA Score
+function calculateTotal(input) {
+    const row = input.closest('tr');
+    const scores = row.querySelectorAll('.ca-score');
+    const totalSpan = row.querySelector('.total-score');
+    let total = 0;
+
+    scores.forEach((score) => {
+        const value = parseInt(score.value) || 0;
+        if (value > 10) {
+            alert('Scores cannot exceed 10!');
+            score.value = 0;
+        } else {
+            total += value;
+        }
+    });
+
+    if (total > 40) {
+        alert('Total cannot exceed 40!');
+        total = 0;
+    }
+
+    totalSpan.textContent = total;
+}
+
+// Toggle Done/Edit Mode
+function toggleRow(button) {
+    const row = button.closest('tr');
+    const inputs = row.querySelectorAll('.ca-score');
+    const isDone = button.textContent === 'Done';
+
+    inputs.forEach((input) => {
+        input.disabled = isDone;
+    });
+
+    button.textContent = isDone ? 'Edit' : 'Done';
+}
+
+// Submit Scores (Stub Function)
+function submitScores() {
+    alert('Scores submitted successfully!');
+    // Implement your AJAX or form submission logic here
+}
