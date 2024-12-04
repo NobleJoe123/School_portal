@@ -215,45 +215,45 @@
             <section class="section" id="test">
                 <div class="container test">
                     <h2>{{ teacher.subject_teacher }} Test</h2>
+
+                    <!-- Cards for Classes -->
                     <div class="cards">
                         {% if jss1_students or jss2_students or jss3_students %}
                         <div class="card" id="jss1-card">
                             <h3>JSS1</h3>
                             <p>{{ jss1_students.count }} Students</p>
-                            <button onclick="showTable('{{ class }}')">View</button>
+                            <button onclick="showTable('JSS1')">View</button>
                         </div>
                         <div class="card" id="jss2-card">
                             <h3>JSS2</h3>
                             <p>{{ jss2_students.count }} Students</p>
-                            <button onclick="showTable('{{ class }}')">View</button>
+                            <button onclick="showTable('JSS2')">View</button>
                         </div>
                         <div class="card" id="jss3-card">
                             <h3>JSS3</h3>
                             <p>{{ jss3_students.count }} Students</p>
-                            <button onclick="showTable('{{ class }}')">View</button>
+                            <button onclick="showTable('JSS3')">View</button>
                         </div>
                         {% else %}
                         <div class="card" id="ss1-card">
                             <h3>SS1</h3>
-                            <p>{{ ss1_students.count }} Students </p>
-                            <button onclick="showTable('{{ class }}')">View</button>
+                            <p>{{ ss1_students.count }} Students</p>
+                            <button onclick="showTable('SS1')">View</button>
                         </div>
                         <div class="card" id="ss2-card">
                             <h3>SS2</h3>
                             <p>{{ ss2_students.count }} Students</p>
-                            <button onclick="showTable('{{ class }}')">View</button>
+                            <button onclick="showTable('SS2')">View</button>
                         </div>
                         <div class="card" id="ss3-card">
                             <h3>SS3</h3>
                             <p>{{ ss3_students.count }} Students</p>
-                            <button onclick="showTable('{{ class }}')">View</button>
+                            <button onclick="showTable('SS3')">View</button>
                         </div>
                         {% endif %}
                     </div>
-                    <div class="term-navigation">
-                        <button id="prevTerm" onclick="toggleTerm(-1)" style="display: none;">Previous Term</button>
-                        <button id="nextTerm" onclick="toggleTerm(1)" style="display: none;">Next Term</button>
-                    </div>
+
+                    <!-- CA Table -->
                     <div id="tables-container">
                         {% for class_name, students in class_students.items %}
                         <table id="table-{{ class_name }}" class="ca-table" style="display: none;">
@@ -295,8 +295,6 @@
                     <div id="submit-container" style="display: none;">
                         <button onclick="submitScores()">Submit Scores</button>
                     </div>
-
-
                 </div>
             </section>
             <section class="section" id="exam">
