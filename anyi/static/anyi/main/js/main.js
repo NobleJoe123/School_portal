@@ -1,13 +1,13 @@
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     document.querySelector(".preloader").classList.add("opacity-0");
-    setTimeout(function() {
+    setTimeout(function () {
         document.querySelector(".preloader").style.display = "none";
     }, 1000);
 });
 
 
 document.querySelectorAll(".showTextButton").forEach(button => {
-    button.onclick = function() {
+    button.onclick = function () {
         const hiddenText = document.getElementById("hiddenText");
         hiddenText.style.display = "block";
     };
@@ -22,7 +22,7 @@ const filterContainer = document.querySelector(".portfolio-filter"),
     totalportfolioItem = portfolioItems.length;
 
 for (let i = 0; i < totalFilterBtn; i++) {
-    filterBtns[i].addEventListener("click", function() {
+    filterBtns[i].addEventListener("click", function () {
         filterContainer.querySelector(".active").classList.remove("active");
         this.classList.add("active");
 
@@ -48,7 +48,7 @@ const lightbox = document.querySelector(".lightbox"),
 let itemIndex = 0;
 
 for (let i = 0; i < totalportfolioItem; i++) {
-    portfolioItems[i].addEventListener("click", function() {
+    portfolioItems[i].addEventListener("click", function () {
         itemIndex = i;
         changeItem();
         toggleLightbox();
@@ -77,7 +77,7 @@ function changeItem() {
 }
 
 // Close Lightbox
-lightbox.addEventListener("click", function(event) {
+lightbox.addEventListener("click", function (event) {
     if (event.target === lightbox || event.target.classList.contains("lightbox-close")) {
         toggleLightbox();
     }
@@ -92,7 +92,7 @@ const nav = document.querySelector(".nav"),
 
 for (let i = 0; i < totalNavList; i++) {
     const a = navList[i].querySelector("a");
-    a.addEventListener("click", function() {
+    a.addEventListener("click", function () {
         removeBackSectionClass();
 
         for (let j = 0; j < totalNavList; j++) {
@@ -138,7 +138,7 @@ function updateNav(element) {
     }
 }
 
-document.querySelector(".hire-me").addEventListener("click", function() {
+document.querySelector(".hire-me").addEventListener("click", function () {
     const sectionIndex = this.getAttribute("data-section-index");
     showSection(this);
     updateNav(this);
@@ -184,55 +184,55 @@ function myFunction() {
 
 let currentTerm = 1;
 
-    function showTable(className) {
-        // Hide all tables
-        document.querySelectorAll('.ca-table').forEach((table) => table.style.display = 'none');
-        // Show the selected class table
-        document.getElementById(`table-${className}`).style.display = 'block';
-        // Display term navigation
-        document.getElementById('prevTerm').style.display = currentTerm > 1 ? 'inline' : 'none';
-        document.getElementById('nextTerm').style.display = currentTerm < 3 ? 'inline' : 'none';
-        document.getElementById('submit-container').style.display = 'block';
-    }
+function showTable(className) {
+    // Hide all tables
+    document.querySelectorAll('.ca-table').forEach((table) => table.style.display = 'none');
+    // Show the selected class table
+    document.getElementById(`table-${className}`).style.display = 'block';
+    // Display term navigation
+    document.getElementById('prevTerm').style.display = currentTerm > 1 ? 'inline' : 'none';
+    document.getElementById('nextTerm').style.display = currentTerm < 3 ? 'inline' : 'none';
+    document.getElementById('submit-container').style.display = 'block';
+}
 
-    function toggleTerm(direction) {
-        currentTerm += direction;
-        // Show/hide term buttons
-        document.getElementById('prevTerm').style.display = currentTerm > 1 ? 'inline' : 'none';
-        document.getElementById('nextTerm').style.display = currentTerm < 3 ? 'inline' : 'none';
-    }
+function toggleTerm(direction) {
+    currentTerm += direction;
+    // Show/hide term buttons
+    document.getElementById('prevTerm').style.display = currentTerm > 1 ? 'inline' : 'none';
+    document.getElementById('nextTerm').style.display = currentTerm < 3 ? 'inline' : 'none';
+}
 
-    function calculateTotal(input) {
-        const row = input.closest('tr');
-        const scores = row.querySelectorAll('.ca-score');
-        let total = 0;
-        scores.forEach((score) => {
-            total += Math.min(Number(score.value) || 0, Number(score.dataset.max));
-        });
-        const totalCell = row.querySelector('.total-score');
-        totalCell.textContent = Math.min(total, 40);
-    }
+function calculateTotal(input) {
+    const row = input.closest('tr');
+    const scores = row.querySelectorAll('.ca-score');
+    let total = 0;
+    scores.forEach((score) => {
+        total += Math.min(Number(score.value) || 0, Number(score.dataset.max));
+    });
+    const totalCell = row.querySelector('.total-score');
+    totalCell.textContent = Math.min(total, 40);
+}
 
-    function submitScores() {
-        // Collect data and send via AJAX
-        const data = [];
-        document.querySelectorAll('.ca-table').forEach((table) => {
-            if (table.style.display !== 'none') {
-                table.querySelectorAll('tr').forEach((row) => {
-                    const studentName = row.cells[0].textContent;
-                    const scores = Array.from(row.querySelectorAll('.ca-score')).map((input) => input.value || 0);
-                    const total = row.querySelector('.total-score').textContent;
-                    data.push({ studentName, scores, total, term: currentTerm });
-                });
-            }
-        });
+function submitScores() {
+    // Collect data and send via AJAX
+    const data = [];
+    document.querySelectorAll('.ca-table').forEach((table) => {
+        if (table.style.display !== 'none') {
+            table.querySelectorAll('tr').forEach((row) => {
+                const studentName = row.cells[0].textContent;
+                const scores = Array.from(row.querySelectorAll('.ca-score')).map((input) => input.value || 0);
+                const total = row.querySelector('.total-score').textContent;
+                data.push({ studentName, scores, total, term: currentTerm });
+            });
+        }
+    });
 
-        console.log('Submitting data:', data);
-        // TODO: Send data to the server via AJAX
-    }
+    console.log('Submitting data:', data);
+    // TODO: Send data to the server via AJAX
+}
 
 
-    // Show Table Based on Selected Class
+// Show Table Based on Selected Class
 function showTable(className) {
     const tables = document.querySelectorAll('.ca-table');
     tables.forEach((table) => {
