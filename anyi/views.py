@@ -241,7 +241,7 @@ def teacher_dashboard(request):
     # ss3_students = Student.objects.filter(student_class="SS3", department__contains=teacher.subject_teacher)
 
 
-    weeks = range(1, 13)
+    weeks = range(1, 15)
     check = range(1, 6)
 
     # Initialize empty QuerySets
