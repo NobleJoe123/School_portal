@@ -180,4 +180,53 @@ function myFunction() {
 
 
 
+// test Section
 
+let currentTerm = 1;
+
+    function showTable(className) {
+        // Hide all tables
+        document.querySelectorAll('.ca-table').forEach((table) => table.style.display = 'none');
+        // Show the selected class table
+        document.getElementById(`table-${className}`).style.display = 'block';
+        // Display term navigation
+        document.getElementById('prevTerm').style.display = currentTerm > 1 ? 'inline' : 'none';
+        document.getElementById('nextTerm').style.display = currentTerm < 3 ? 'inline' : 'none';
+        document.getElementById('submit-container').style.display = 'block';
+    }
+
+    function toggleTerm(direction) {
+        currentTerm += direction;
+        // Show/hide term buttons
+        document.getElementById('prevTerm').style.display = currentTerm > 1 ? 'inline' : 'none';
+        document.getElementById('nextTerm').style.display = currentTerm < 3 ? 'inline' : 'none';
+    }
+
+    function calculateTotal(input) {
+        const row = input.closest('tr');
+        const scores = row.querySelectorAll('.ca-score');
+        let total = 0;
+        scores.forEach((score) => {
+            total += Math.min(Number(score.value) || 0, Number(score.dataset.max));
+        });
+        const totalCell = row.querySelector('.total-score');
+        totalCell.textContent = Math.min(total, 40);
+    }
+
+    function submitScores() {
+        // Collect data and send via AJAX
+        const data = [];
+        document.querySelectorAll('.ca-table').forEach((table) => {
+            if (table.style.display !== 'none') {
+                table.querySelectorAll('tr').forEach((row) => {
+                    const studentName = row.cells[0].textContent;
+                    const scores = Array.from(row.querySelectorAll('.ca-score')).map((input) => input.value || 0);
+                    const total = row.querySelector('.total-score').textContent;
+                    data.push({ studentName, scores, total, term: currentTerm });
+                });
+            }
+        });
+
+        console.log('Submitting data:', data);
+        // TODO: Send data to the server via AJAX
+    }

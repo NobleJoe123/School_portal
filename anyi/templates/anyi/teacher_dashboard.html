@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="{% static 'anyi/css/index.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'anyi/css/hide.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'anyi/main/css/drop.css' %}">
     <link rel="stylesheet" class="alternate-style" title="pink" href="{% static 'anyi/main/css/skins/pink.css' %}"
         type="text/css" disabled>
@@ -220,6 +220,134 @@
                         <div class="card" id="jss1-card">
                             <h3>JSS1</h3>
                             <p>{{ jss1_students.count }} Students</p>
+                            <button onclick="showTable('{{ class }}')">View</button>
+                        </div>
+                        <div class="card" id="jss2-card">
+                            <h3>JSS2</h3>
+                            <p>{{ jss2_students.count }} Students</p>
+                            <button onclick="showTable('{{ class }}')">View</button>
+                        </div>
+                        <div class="card" id="jss3-card">
+                            <h3>JSS3</h3>
+                            <p>{{ jss3_students.count }} Students</p>
+                            <button onclick="showTable('{{ class }}')">View</button>
+                        </div>
+                        {% else %}
+                        <div class="card" id="ss1-card">
+                            <h3>SS1</h3>
+                            <p>{{ ss1_students.count }} Students </p>
+                            <button onclick="showTable('{{ class }}')">View</button>
+                        </div>
+                        <div class="card" id="ss2-card">
+                            <h3>SS2</h3>
+                            <p>{{ ss2_students.count }} Students</p>
+                            <button onclick="showTable('{{ class }}')">View</button>
+                        </div>
+                        <div class="card" id="ss3-card">
+                            <h3>SS3</h3>
+                            <p>{{ ss3_students.count }} Students</p>
+                            <button onclick="showTable('{{ class }}')">View</button>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="term-navigation">
+                        <button id="prevTerm" onclick="toggleTerm(-1)" style="display: none;">Previous Term</button>
+                        <button id="nextTerm" onclick="toggleTerm(1)" style="display: none;">Next Term</button>
+                    </div>
+
+
+                    <div id="tables-container">
+                        {% for student in ss1_students %}
+                        <table id="table-{{ class }}" class="ca-table" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>CA1</th>
+                                    <th>CA2</th>
+                                    <th>CA3</th>
+                                    <th>CA4</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in class_students %}
+                                <tr>
+                                    <td>{{ student.fname }} {{ student.lname }}</td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)"></td>
+                                    <td><span class="total-score">0</span></td>
+                                    <td><button class="edit-btn">Edit</button></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div id="submit-container" style="display: none;">
+                        <button onclick="submitScores()">Submit Scores</button>
+                    </div>
+
+                </div>
+            </section>
+            <section class="section" id="exam">
+                <div class="container exam">
+                    <h2>{{ teacher.subject_teacher }} Exam</h2>
+                    <div class="cards">
+                        {% if jss1_students or jss2_students or jss3_students %}
+                        <div class="card" id="jss1-card">
+                            <h3>JSS1</h3>
+                            <p>{{ jss1_students.count }} Students</p>
+                            <button onclick="toggleInput('jss1')">View</button>
+                        </div>
+                        <div class="card" id="jss2-card">
+                            <h3>JSS2</h3>
+                            <p>{{ jss2_students.count }} Students</p>
+                            <button onclick="toggleInput('jss2')">View</button>
+                        </div>
+                        <div class="card" id="jss3-card">
+                            <h3>JSS3</h3>
+                            <p>{{ jss3_students.count }} Students</p>
+                            <button onclick="toggleInput('jss3')">View</button>
+                        </div>
+                        {% else %}
+                        <div class="card" id="ss1-card">
+                            <h3>SS1</h3>
+                            <p>{{ ss1_students.count }} Students </p>
+                            <button onclick="toggleInput('ss1')">View</button>
+                        </div>
+                        <div class="card" id="ss2-card">
+                            <h3>SS2</h3>
+                            <p>{{ ss2_students.count }} Students</p>
+                            <button onclick="toggleInput('ss2')">View</button>
+                        </div>
+                        <div class="card" id="ss3-card">
+                            <h3>SS3</h3>
+                            <p>{{ ss3_students.count }} Students</p>
+                            <button onclick="toggleInput('ss3')">View</button>
+                        </div>
+                        {% endif %}
+                    </div>
+
+
+                </div>
+            </section>
+            <section class="section" id="assign">
+                <div class="container assign">
+                    <h2>{{ teacher.subject_teacher }} Assignment</h2>
+                    <div class="cards">
+                        {% if jss1_students or jss2_students or jss3_students %}
+                        <div class="card" id="jss1-card">
+                            <h3>JSS1</h3>
+                            <p>{{ jss1_students.count }} Students</p>
                             <button onclick="toggleInput('jss1')">View</button>
                         </div>
                         <div class="card" id="jss2-card">
@@ -259,9 +387,9 @@
                             {% csrf_token %}
                             <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
                             <input type="hidden" name="student_class" value="JSS1">
-                            <label>Import Test</label>
+                            <label>Import Docs</label>
                             <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
+                            <button type="submit" name="submit_exam" class="submit">Submit</button>
                         </form>
                         <ul>
                             {% for student in jss1_students %}
@@ -276,14 +404,14 @@
                         <h3>JSS2 Students
                             <div class="line"></div>
                         </h3>
-                        
+
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
                             <input type="hidden" name="student_class" value="JSS2">
-                            <label>Import Test</label>
+                            <label>Import Docs</label>
                             <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
+                            <button type="submit" name="submit_exam" class="submit">Submit</button>
                         </form>
                         <ul>
                             {% for student in jss2_students %}
@@ -301,9 +429,9 @@
                             {% csrf_token %}
                             <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
                             <input type="hidden" name="student_class" value="JSS3">
-                            <label>Import Test</label>
+                            <label>Import Docs</label>
                             <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
+                            <button type="submit" name="submit_exam" class="submit">Submit</button>
                         </form>
                         <ul>
                             {% for student in jss3_students %}
@@ -320,9 +448,9 @@
                             {% csrf_token %}
                             <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
                             <input type="hidden" name="student_class" value="SS1">
-                            <label>Import Test</label>
+                            <label>Import Docs</label>
                             <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
+                            <button type="submit" name="submit_exam" class="submit">Submit</button>
                         </form>
                         <ul>
                             {% for student in ss1_students %}
@@ -338,9 +466,9 @@
                             {% csrf_token %}
                             <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
                             <input type="hidden" name="student_class" value="SS1">
-                            <label>Import Test</label>
+                            <label>Import Docs</label>
                             <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
+                            <button type="submit" name="submit_exam" class="submit">Submit</button>
                         </form>
                         <ul>
                             {% for student in ss1_students %}
@@ -356,9 +484,9 @@
                             {% csrf_token %}
                             <textarea name="grades_data" placeholder="Enter test here" rows="4" cols="50"></textarea>
                             <input type="hidden" name="student_class" value="SS1">
-                            <label>Import Test</label>
+                            <label>Import Docs</label>
                             <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
+                            <button type="submit" name="submit_exam" class="submit">Submit</button>
                         </form>
                         <ul>
                             {% for student in ss1_students %}
@@ -369,242 +497,70 @@
                     </div>
                 </div>
             </section>
-            <section class="section" id="exam">
-                <div class="container exam">
-                    <h2>{{ teacher.subject_teacher }} Exams</h2>
-                    <div class="cards">
-                        {% if jss1_students or jss2_students or jss3_students %}
-                        <div class="card" >
-                            <h3>JSS1</h3>
-                            <p>{{ jss1_students.count }} Students</p>
-                            <button onclick="toggleCard('jss1')">View</button>
-                        </div>
-                        <div class="card" >
-                            <h3>JSS2</h3>
-                            <p>{{ jss2_students.count }} Students</p>
-                            <button onclick="toggleCard('jss2')">View</button>
-                        </div>
-                        <div class="card" >
-                            <h3>JSS3</h3>
-                            <p>{{ jss3_students.count }} Students</p>
-                            <button onclick="toggleCard('jss3')">View</button>
-                        </div>
-                        {% else %}
-                        <!-- SS1 Card -->
-                        <div class="card">
-                            <h3>SS1</h3>
-                            <p>{{ ss1_students.count }} Students</p>
-                            <button onclick="toggleCard('ss1')">View</button>
-                        </div>
-
-                        <!-- SS2 Card -->
-                        <div class="card">
-                            <h3>SS2</h3>
-                            <p>{{ ss2_students.count }} Students</p>
-                            <button onclick="toggleCard('ss2')">View</button>
-                        </div>
-
-                        <!-- SS3 Card -->
-                        <div class="card">
-                            <h3>SS3</h3>
-                            <p>{{ ss3_students.count }} Students</p>
-                            <button onclick="toggleCard('ss3')">View</button>
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- SS1 Students -->
-                    <div id="jss1-students" class="student-list" style="display:none;">
-                        <h3>JSS1 Students</h3>
-                        <div class="line"></div>
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
-                            <input type="hidden" name="student_class" value="JSS1">
-                            <label>Import Exam</label>
-                            <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
-                        </form>
-                        <ul>
-                            {% for student in jss1_students %}
-                            {% empty %}
-                            <li>No students found for JSS1.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    <!-- jSS2 Students -->
-                    <div id="jss2-students" class="student-list" style="display:none;">
-                        <h3>JSS2 Students</h3>
-                        <div class="line"></div>
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
-                            <input type="hidden" name="student_class" value="JSS2">
-                            <label>Import Exam</label>
-                            <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
-                        </form>
-                        <ul>
-                            {% for student in jss2_students %}
-                            {% empty %}
-                            <li>No students found for JSS2.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    <!-- jSS3 Students -->
-                    <div id="jss3-students" class="student-list" style="display:none;">
-                        <h3>JSS3 Students</h3>
-                        <div class="line"></div>
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
-                            <input type="hidden" name="student_class" value="JSS3">
-                            <label>Import Exam</label>
-                            <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
-                        </form>
-                        <ul>
-                            {% for student in jss3_students %}
-                            {% empty %}
-                            <li>No students found for JSS3.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    <div id="ss1-students" class="student-list" style="display:none;">
-                        <h3>SS1 Students</h3>
-                        <div class="line"></div>
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
-                            <input type="hidden" name="student_class" value="SS1">
-                            <label>Import Exam</label>
-                            <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
-                        </form>
-                        <ul>
-                            {% for student in ss1_students %}
-                            {% empty %}
-                            <li>No students found for SS1.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    <!-- SS2 Students -->
-                    <div id="ss2-students" class="student-list" style="display:none;">
-                        <h3>SS2 Students</h3>
-                        <div class="line"></div>
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
-                            <input type="hidden" name="student_class" value="SS2">
-                            <label>Import Exam</label>
-                            <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
-                        </form>
-                        <ul>
-                            {% for student in ss2_students %}
-                            {% empty %}
-                            <li>No students found for SS2.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    <!-- SS3 Students -->
-                    <div id="ss3-students" class="student-list" style="display:none;">
-                        <h3>SS3 Students</h3>
-                        <div class="line"></div>
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <textarea name="grades_data" placeholder="Enter exam here"></textarea>
-                            <input type="hidden" name="student_class" value="SS3">
-                            <label>Import Exam</label>
-                            <input type="file" name="grades_file" class="import">
-                            <button type="submit" name="submit_exam">Submit</button>
-                        </form>
-                        <ul>
-                            {% for student in ss3_students %}
-                            {% empty %}
-                            <li>No students found for SS3.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+            <section class="section" id="news">
+                <div class="container">
+                    <h2>News Section</h2>
+                    <p>News details go here.</p>
                 </div>
+            </section>
+            <section class="section" id="message">
+                <div class="container">
+                    <h2>Messages Section</h2>
+                    <p>Messages details go here.</p>
+                </div>
+            </section>
+            <section class="section" id="notify">
+                <div class="container">
+                    <h2>Notification Section</h2>
+                    <p>Notification details go here.</p>
+                </div>
+            </section>
+            <section class="section" id="report">
+                <div class="container">
+                    <h2>Reports Section</h2>
+                    <p>Reports details go here.</p>
+                </div>
+            </section>
+            <section class="section" id="result">
+                <div class="container">
+                    <h2>Results Section</h2>
+                    <p>Results details go here.</p>
+                </div>
+            </section>
 
+
+
+            <!-- Add more sections as needed -->
+
+            <!-- Style Switcher -->
+            <div class="style-switcher">
+                <div class="toggle-style-switcher"><i class="fa fa-cog fa-spin"></i></div>
+                <h5>Style Switcher</h5>
+                <ul>
+                    <li><a href="Javascript:void(0);" title="pink" style="background-color: #ec1839"
+                            onclick="setActiveStyle('pink')"></a></li>
+                    <li><a href="Javascript:void(0);" title="blue" style="background-color: #0dcaf0"
+                            onclick="setActiveStyle('blue')"></a></li>
+                    <li><a href="Javascript:void(0);" title="orange" style="background-color: #fa5b0f"
+                            onclick="setActiveStyle('orange')"></a></li>
+                    <li><a href="Javascript:void(0);" title="yellow" style="background-color: #ffb400"
+                            onclick="setActiveStyle('yellow')"></a></li>
+                    <li><a href="Javascript:void(0);" title="green" style="background-color: #72b626"
+                            onclick="setActiveStyle('green')"></a></li>
+                </ul>
+                <h5>Body Skin</h5>
+                <label>
+                    <input type="radio" class="body-skin" name="body-style" value="light" checked="true"> Light
+                </label>
+                <label>
+                    <input type="radio" class="body-skin" name="body-style" value="dark"> Dark
+                </label>
+            </div>
         </div>
-        </section>
-        <section class="section" id="assign">
-            <div class="container">
-                <h2>Assignment Section</h2>
-                <p>Assignment details go here.</p>
-            </div>
-        </section>
-        <section class="section" id="news">
-            <div class="container">
-                <h2>News Section</h2>
-                <p>News details go here.</p>
-            </div>
-        </section>
-        <section class="section" id="message">
-            <div class="container">
-                <h2>Messages Section</h2>
-                <p>Messages details go here.</p>
-            </div>
-        </section>
-        <section class="section" id="notify">
-            <div class="container">
-                <h2>Notification Section</h2>
-                <p>Notification details go here.</p>
-            </div>
-        </section>
-        <section class="section" id="report">
-            <div class="container">
-                <h2>Reports Section</h2>
-                <p>Reports details go here.</p>
-            </div>
-        </section>
-        <section class="section" id="result">
-            <div class="container">
-                <h2>Results Section</h2>
-                <p>Results details go here.</p>
-            </div>
-        </section>
-
-
-
-        <!-- Add more sections as needed -->
-
-        <!-- Style Switcher -->
-        <div class="style-switcher">
-            <div class="toggle-style-switcher"><i class="fa fa-cog fa-spin"></i></div>
-            <h5>Style Switcher</h5>
-            <ul>
-                <li><a href="Javascript:void(0);" title="pink" style="background-color: #ec1839"
-                        onclick="setActiveStyle('pink')"></a></li>
-                <li><a href="Javascript:void(0);" title="blue" style="background-color: #0dcaf0"
-                        onclick="setActiveStyle('blue')"></a></li>
-                <li><a href="Javascript:void(0);" title="orange" style="background-color: #fa5b0f"
-                        onclick="setActiveStyle('orange')"></a></li>
-                <li><a href="Javascript:void(0);" title="yellow" style="background-color: #ffb400"
-                        onclick="setActiveStyle('yellow')"></a></li>
-                <li><a href="Javascript:void(0);" title="green" style="background-color: #72b626"
-                        onclick="setActiveStyle('green')"></a></li>
-            </ul>
-            <h5>Body Skin</h5>
-            <label>
-                <input type="radio" class="body-skin" name="body-style" value="light" checked="true"> Light
-            </label>
-            <label>
-                <input type="radio" class="body-skin" name="body-style" value="dark"> Dark
-            </label>
-        </div>
-    </div>
     </div>
 
     <!-- JavaScript -->
-    <script src="{% static 'anyi/main/js/script.js' %}"></script>
+    <script src="{% static 'anyi/main/js/main.js' %}"></script>
     <script src="{% static 'anyi/main/js/styleSwitcher.js' %}"></script>
 
     <script>

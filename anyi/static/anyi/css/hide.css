@@ -1103,7 +1103,7 @@
 /* Contact Section ends*/
 /* Text area */
 .assign textarea {
-    margin-left: 16%;
+    /* margin-left: 16%; */
     width: 700px;
     height: 300px;
     border: 1px solid #dee0e4; 
