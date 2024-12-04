@@ -254,11 +254,9 @@
                         <button id="prevTerm" onclick="toggleTerm(-1)" style="display: none;">Previous Term</button>
                         <button id="nextTerm" onclick="toggleTerm(1)" style="display: none;">Next Term</button>
                     </div>
-
-
                     <div id="tables-container">
-                        {% for student in ss1_students %}
-                        <table id="table-{{ class }}" class="ca-table" style="display: none;">
+                        {% for class_name, students in class_students.items %}
+                        <table id="table-{{ class_name }}" class="ca-table" style="display: none;">
                             <thead>
                                 <tr>
                                     <th>Student Name</th>
@@ -271,7 +269,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for student in class_students %}
+                                {% for student in students %}
                                 <tr>
                                     <td>{{ student.fname }} {{ student.lname }}</td>
                                     <td><input type="number" class="ca-score" data-max="10"
@@ -283,7 +281,9 @@
                                     <td><input type="number" class="ca-score" data-max="10"
                                             onchange="calculateTotal(this)"></td>
                                     <td><span class="total-score">0</span></td>
-                                    <td><button class="edit-btn">Edit</button></td>
+                                    <td>
+                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -295,6 +295,7 @@
                     <div id="submit-container" style="display: none;">
                         <button onclick="submitScores()">Submit Scores</button>
                     </div>
+
 
                 </div>
             </section>
