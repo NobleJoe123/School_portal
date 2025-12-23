@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+from decouple import config
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'anyi',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -81,20 +84,18 @@ WSGI_APPLICATION = 'School_portal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',
-        'NAME': 'portal',
-        'USER' : '',
-        'PASSWORD': '',
-        'HOST' : 'localhost',
-        'PORT' : '1433',
-        'OPTIONS' : {
-            "driver" : "ODBC Driver 17 for SQL Server",
-            'extra_params': 'TrustServerCertificate=yes;',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME', ),
+        'USER' : config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST' : config('DB_HOST', default='localhost'),
+        'PORT' : '5432',
+
         },
 
 
     }
-}
+
 
 
 
@@ -141,3 +142,14 @@ MEDIA_ROOT = MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ASGI_APPLICATION = "School_portal.asgi.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

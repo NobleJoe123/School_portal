@@ -71,12 +71,12 @@ li .dropdown {
 
 /* section class start from here */
 
-.atten{
+.atten {
   margin-left: -2%;
-  
+
 }
 
-.atten h2{
+.atten h2 {
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 10px;
 }
@@ -88,16 +88,27 @@ table {
   border-collapse: collapse;
   margin-bottom: 20px;
   background-color: #fff;
-  
-  
+
+
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
 
   /* text-align: center; */
 
+
+
 }
+
+
+.ca-score input:disabled {
+  background-color: #f0f0f0;
+  color: #888;
+  cursor: not-allowed;
+}
+
 
 th {
   background-color: #0dcaf0;
@@ -105,16 +116,17 @@ th {
   width: 30px;
 }
 
-td input{
-  width: 50%;;
+td input {
+  width: 50%;
+  ;
   text-align: center;
 }
 
-td input::-webkit-inner-spin-button{
+td input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-td button{
+td button {
   /* margin-top: 10px; */
   padding: 5px 20px;
   font-size: 12px;
@@ -130,7 +142,7 @@ td button{
   display: flex;
   text-align: center;
   gap: 4px;
-} 
+}
 
 .termbtn {
   margin-top: 10px;
@@ -145,19 +157,21 @@ td button{
 
 .termbtn:hover {
   background-color: #26bfdd;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
- 
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+
 }
 
 .term-section {
-  display: none; /* Hide other terms initially */
+  display: none;
+  /* Hide other terms initially */
 }
 
 .term-section.active {
-  display: block; /* Show active term section */
+  display: block;
+  /* Show active term section */
 }
 
-.assign h2{
+.assign h2 {
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 10px;
 }
@@ -178,10 +192,10 @@ td button{
   color: #ffff;
   border-radius: 8px;
   background-color: #0dcaf0;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-.card button{
+.card button {
   background-color: #0dcaf0;
   color: #fff;
   border: none;
@@ -190,14 +204,14 @@ td button{
   padding: 10px;
 }
 
-.card button:hover{
+.card button:hover {
   color: #0dcaf0;
   background-color: #fff;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   /* transform: scale(1.1); */
 }
 
-.assign textarea{
+.assign textarea {
   border: 1px solid #ddd;
   width: 100%;
   height: 250px;
@@ -208,11 +222,11 @@ td button{
   background-color: #fff;
   resize: none;
   font-size: 16px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+
 }
 
-.assign h3{
+.assign h3 {
   text-align: center;
   margin-bottom: 8px;
 }
@@ -226,7 +240,7 @@ td button{
   margin-left: 43%;
 }
 
-.assign .submit{
+.assign .submit {
   background-color: #0dcaf0;
   color: #fff;
   border: none;
@@ -236,25 +250,25 @@ td button{
   width: 20%;
 }
 
-.assign input[type="file"]::file-selector-button{
+.assign input[type="file"]::file-selector-button {
   background-color: #0dcaf0;
   color: #fff;
   border: none;
   font-size: 18px;
   cursor: pointer;
   padding: 10px;
-  
+
 }
 
-.assign label{
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.assign label {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #0dcaf0;
   font-weight: bold;
   font-size: 16px;
 }
 
 
-.student-list textarea{
+.student-list textarea {
   border: 1px solid #ddd;
   width: 100%;
   height: 250px;
@@ -265,10 +279,10 @@ td button{
   background-color: #fff;
   resize: none;
   font-size: 16px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-.student-list h3{
+.student-list h3 {
   text-align: center;
   margin-bottom: 8px;
 }
@@ -282,7 +296,7 @@ td button{
   margin-left: 43%;
 }
 
-.student-list button{
+.student-list button {
   background-color: #0dcaf0;
   color: #fff;
   border: none;
@@ -293,18 +307,18 @@ td button{
 }
 
 
-.student-list input[type="file"]::file-selector-button{
+.student-list input[type="file"]::file-selector-button {
   background-color: #0dcaf0;
   color: #fff;
   border: none;
   font-size: 18px;
   cursor: pointer;
   padding: 10px;
-  
+
 }
 
-.student-list label{
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.student-list label {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #0dcaf0;
   font-weight: bold;
   font-size: 16px;

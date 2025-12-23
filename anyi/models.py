@@ -211,6 +211,30 @@ class Art(models.Model):
 
     def __str__(self):
         return f"Art: {self.student}"
+    
+
+
+class Attendance(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    week = models.IntegerField()
+    term = models.IntegerField()
+    is_present = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('student', 'week', 'term')
+
+    def __str__(self):
+        return f"Student: {self.student}, Term: {self.term}, Week: {self.week}, Present: {self.is_present}"
+
+    
+    
+    
+    
+class TestScore(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=50)
+    test_score = models.IntegerField()
+    exam_score = models.IntegerField()
 
 
 

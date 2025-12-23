@@ -3,7 +3,10 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .forms import UserForm, LoginForm, StudentForm, TeacherForm
 from django.contrib import messages
-from .models import Role, Admin, Bursal, Teacher, Student
+from .models import Role, Admin, Bursal, Teacher, Student, Attendance, TestScore
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 
@@ -241,12 +244,28 @@ def teacher_dashboard(request):
     # ss3_students = Student.objects.filter(student_class="SS3", department__contains=teacher.subject_teacher)
 
 
-    weeks = range(1, 15)
-    check = range(1, 6)
 
     # Initialize empty QuerySets
     subject_students = Student.objects.none()
     class_students = Student.objects.none()
+
+    weeks = range(1, 15)
+    check = range(1, 6)
+    term = 1
+
+    class_students = Student.objects.filter(student_class=teacher.class_teacher) if teacher.class_teacher else Student.objects.none()
+
+    # Attendance data
+    attendance_data = {}
+    if class_students.exists():
+        for attendance in Attendance.objects.filter(student__in=class_students, term=term):
+            key = f"term{attendance.term}_{attendance.student.id}_week{attendance.week}"
+            attendance_data[key] = attendance.is_present
+
+      # Current term# Example: Filter students
+
+    # Fetch attendance data
+
 
     # Mapping subjects to departments and classes
     science_subjects = [
@@ -305,6 +324,24 @@ def teacher_dashboard(request):
         jss3_students = Student.objects.filter(student_class="JSS3")
 
 
+    class_names = ["JSS1", "JSS2", "JSS3", "SS1", "SS2", "SS3"]
+
+    students_by_class = [
+        {
+            "class_name": class_name,
+            "students": Student.objects.filter(student_class=class_name),
+        }
+        for class_name in class_names
+    ]
+
+    classes = {
+        'JSS1': jss1_students,
+        'JSS2': jss2_students,
+        'JSS3': jss3_students,
+        'SS1': ss1_students,
+        'SS2': ss2_students,
+        'SS3': ss3_students,
+        }
       
 
     # Render the dashboard with relevant students
@@ -315,8 +352,11 @@ def teacher_dashboard(request):
         'ss3_students': ss3_students,
         'jss1_students': jss1_students,
         'jss2_students': jss2_students,
-        'jss3_students': jss3_students,
+        'jss3_students': jss3_students, 
         'subject_students': subject_students,
+        "students_by_class": students_by_class,
+        'classes': classes,
+        'attendance_data' : attendance_data,
         'class_students': class_students,
         'weeks' : weeks,
         'check' : check,
@@ -412,3 +452,46 @@ def student_register(request):
         form = StudentForm()
 
     return render(request, 'anyi/student_register.html', {'form': form})
+
+
+
+# Atendance and score #
+
+@csrf_exempt
+def save_attendance(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            for entry in data:
+                student_id = entry['student_id']
+                week = entry['week']
+                present = entry['present']
+
+                # Save attendance
+                Attendance.objects.update_or_create(
+                    student_id=student_id, term=1, week=week, defaults={'present': present}
+                )
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+# def get_data(request, class_name):
+#     students = Student.objects.filter(class_name=class_name)
+#     attendance = Attendance.objects.filter(student__class_name=class_name)
+#     test_scores = TestScore.objects.filter(student__class_name=class_name)
+
+#     response = {
+#         "students": list(students.values()),
+#         "attendance": list(attendance.values()),
+#         "test_scores": list(test_scores.values())
+#     }
+#     return JsonResponse(response)
+
+# def save_data(request):
+#     if request.method == "POST":
+#         # Parse and save attendance or test score data
+#         data = request.POST.get("data")
+#         # Save to database
+#         return JsonResponse({"success": True})

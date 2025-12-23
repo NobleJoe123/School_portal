@@ -18,6 +18,7 @@ urlpatterns = [
     path('student_login/', views.student_login, name='student_login'),
     path('bursal_login/', views.bursal_login, name='bursal_login'),
     path('teacher_login/', views.teacher_login, name='teacher_login'),
+    path('save-attendance/', views.save_attendance, name='save_attendance'),
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('student_dashboard/', views.student_dashboard, name='student_dashboard'),
     # path('teacher_board', views.teacher_board, name='teacher_board'),

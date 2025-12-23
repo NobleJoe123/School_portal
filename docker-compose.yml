@@ -1,0 +1,28 @@
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: primary_school_db
+      POSTGRES_USER: school_user
+      POSTGRES_PASSWORD: school123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=primary_school_db
+      - DB_USER=school_user
+      - DB_PASSWORD=school123
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

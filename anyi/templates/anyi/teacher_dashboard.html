@@ -1,5 +1,7 @@
 {% load static %}
 
+{% load custom_filters %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,7 +89,7 @@
                                     class="fa fa-linkedin"></i></a><br>
                             <button class="edit">Update</button>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </section>
 
@@ -95,46 +97,46 @@
             <section class="section" id="atten">
                 <div class="container atten">
                     <div id="term1-section" class="term-section active">
-                        <h2>{{ teacher.class_teacher }} 1st Term Attendance</h2>
-                        <form id="term1-form">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>S/N</th>
-                                        <th>Student Name</th>
-                                        {% for week in weeks %}
-                                        <th>Wk {{ week }}</th>
+                        <h2>{{ teacher.class_teacher }} <h2>1st Term Attendance</h2>
+                            <br>
+                            <form id="term1-form">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Student Name</th>
+                                            {% for week in weeks %}
+                                            <th>Wk {{ week }}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for student in class_students %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ student.fname }} {{ student.lname }}</td>
+                                            {% for week in weeks %}
+                                            <td>
+                                                <div class="checkbox-group">
+                                                    {% for i in check %}
+                                                    <input type="checkbox" data-student="{{ student.id }}"
+                                                        data-week="{{ week }}" data-term="1">
+                                                    {% endfor %}
+                                                </div>
+                                            </td>
+                                            {% endfor %}
+                                        </tr>
                                         {% endfor %}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for student in class_students %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ student.fname }} {{ student.lname }}</td>
-                                        {% for week in weeks %}
-                                        <td>
-                                            <div class="checkbox-group">
-                                                {% for i in check %}
-                                                <input type="checkbox"
-                                                    name="term1_{{ student.id }}_week{{ week }}_{{ i }}"
-                                                    id="term1_{{ student.id }}_week{{ week }}_{{ i }}">
-                                                {% endfor %}
-                                            </div>
-                                        </td>
-                                        {% endfor %}
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <button type="button" class="termbtn" onclick="submitAttendance('term1')">Submit 1st
-                                Term</button>
-                        </form>
+                                    </tbody>
+                                </table>
+                                <button type="button" class="termbtn" id="save-attendance">Submit 1st
+                                    Term</button>
+                            </form>
                     </div>
 
                     <!-- Second Term Section -->
                     <div id="term2-section" class="term-section">
-                        <h2>{{ teacher.class_teacher }} 2nd Term Attendance</h2>
+                        <h2>2nd Term Attendance</h2>
                         <form id="term2-form">
                             <table>
                                 <thead>
@@ -155,9 +157,8 @@
                                         <td>
                                             <div class="checkbox-group">
                                                 {% for i in check %}
-                                                <input type="checkbox"
-                                                    name="term2_{{ student.id }}_week{{ week }}_{{ i }}"
-                                                    id="term2_{{ student.id }}_week{{ week }}_{{ i }}">
+                                                <input type="checkbox" data-student="{{ student.id }}"
+                                                    data-week="{{ week }}" data-term="2">
                                                 {% endfor %}
                                             </div>
                                         </td>
@@ -166,14 +167,14 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            <button type="button" class="termbtn" onclick="submitAttendance('term2')">Submit 2nd
+                            <button type="button" class="termbtn" id="save-attendance">Submit 2nd
                                 Term</button>
                         </form>
                     </div>
 
                     <!-- Third Term Section -->
                     <div id="term3-section" class="term-section">
-                        <h2>{{ teacher.class_teacher }} 3rd Term Attendance</h2>
+                        <h2>3rd Term Attendance</h2>
                         <form id="term3-form">
                             <table>
                                 <thead>
@@ -194,9 +195,8 @@
                                         <td>
                                             <div class="checkbox-group">
                                                 {% for i in check %}
-                                                <input type="checkbox"
-                                                    name="term3_{{ student.id }}_week{{ week }}_{{ i }}"
-                                                    id="term3_{{ student.id }}_week{{ week }}_{{ i }}">
+                                                <input type="checkbox" data-student="{{ student.id }}"
+                                                    data-week="{{ week }}" data-term="3">
                                                 {% endfor %}
                                             </div>
                                         </td>
@@ -205,7 +205,7 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            <button type="button" class="termbtn" onclick="submitAttendance('term3')">Submit 3rd
+                            <button type="button" class="termbtn" id="save-attendance">Submit 3rd
                                 Term</button>
                         </form>
                     </div>
@@ -214,258 +214,175 @@
 
             <section class="section" id="test">
                 <div class="container test">
-                    <h2>{{ teacher.subject_teacher }} Test</h2>
+                    <h2>{{ teacher.subject_teacher }} Test Scores</h2>
                     <div class="cards">
                         {% if jss1_students or jss2_students or jss3_students %}
+                        <!-- Junior Classes -->
                         <div class="card" id="jss1-card">
                             <h3>JSS1</h3>
-                            <p>{{ jss1_students.count }} Students</p>
-                            <button onclick="showTable('{{ jss1 }}')">View</button>
+                            <p>{{ jss1_students|length }} Students</p>
+                            <button onclick="showTable('jss1')">View</button>
                         </div>
                         <div class="card" id="jss2-card">
                             <h3>JSS2</h3>
-                            <p>{{ jss2_students.count }} Students</p>
-                            <button onclick="showTable('{{ jss2 }}')">View</button>
+                            <p>{{ jss2_students|length }} Students</p>
+                            <button onclick="showTable('jss2')">View</button>
                         </div>
                         <div class="card" id="jss3-card">
                             <h3>JSS3</h3>
-                            <p>{{ jss3_students.count }} Students</p>
-                            <button onclick="showTable('{{ jss3 }}')">View</button>
+                            <p>{{ jss3_students|length }} Students</p>
+                            <button onclick="showTable('jss3')">View</button>
                         </div>
                         {% else %}
+                        <!-- Senior Classes -->
                         <div class="card" id="ss1-card">
                             <h3>SS1</h3>
-                            <p>{{ ss1_students.count }} Students </p>
-                            <button onclick="showTable('{{ ss1 }}')">View</button>
+                            <p>{{ ss1_students|length }} Students</p>
+                            <button onclick="showTable('ss1')">View</button>
                         </div>
                         <div class="card" id="ss2-card">
                             <h3>SS2</h3>
-                            <p>{{ ss2_students.count }} Students</p>
-                            <button onclick="showTable('{{ ss2 }}')">View</button>
+                            <p>{{ ss2_students|length }} Students</p>
+                            <button onclick="showTable('ss2')">View</button>
                         </div>
                         <div class="card" id="ss3-card">
                             <h3>SS3</h3>
-                            <p>{{ ss3_students.count }} Students</p>
-                            <button onclick="showTable('{{ ss3 }}')">View</button>
+                            <p>{{ ss3_students|length }} Students</p>
+                            <button onclick="showTable('ss3')">View</button>
                         </div>
                         {% endif %}
                     </div>
-                    <div class="term-navigation">
+                    <!-- <div class="term-navigation">
                         <button id="prevTerm" onclick="toggleTerm(-1)" style="display: none;">Previous Term</button>
                         <button id="nextTerm" onclick="toggleTerm(1)" style="display: none;">Next Term</button>
+                    </div> -->
+
+                    <div id="tables-container">
+                        {% for class_data in students_by_class %}
+                        <table id="table-{{ class_data.class_name|lower }}" class="ca-table" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>CA-1</th>
+                                    <th>CA-2</th>
+                                    <th>CA-3</th>
+                                    <th>CA-4</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in class_data.students %}
+                                <tr>
+                                    <td>{{ student.fname }} {{ student.lname }}</td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)">
+                                    </td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)">
+                                    </td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)">
+                                    </td>
+                                    <td><input type="number" class="ca-score" data-max="10"
+                                            onchange="calculateTotal(this)">
+                                    </td>
+                                    <td><span class="total-score">0</span></td>
+                                    <td>
+                                        <button class="toggle-btn" onclick="toggleRowHandler(this)">Done</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
                     </div>
 
 
-                    <div id="tables-container">
-                        {% for students in class_students %}
-                        <table id="table-{{ jss1 }}" class="ca-table" style="display: none;">
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>CA-1</th>
-                                    <th>CA-2</th>
-                                    <th>CA-3</th>
-                                    <th>CA-4</th>
-                                    <th>Total</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for student in subject_students %}
-                                <tr>
-                                    <td>{{ student.fname }} {{ student.lname }}</td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><span class="total-score">0</span></td>
-                                    <td>
-                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% endfor %}
+                    <!-- Submit Button -->
+                    <div id="submit-container" style="display: none;">
+                        <button onclick="submitTestScores()" class="termbtn">Submit Scores</button>
                     </div>
-                    <div id="tables-container">
-                        {% for students in class_students %}
-                        <table id="table-{{ jss2 }}" class="ca-table" style="display: none;">
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>CA-1</th>
-                                    <th>CA-2</th>
-                                    <th>CA-3</th>
-                                    <th>CA-4</th>
-                                    <th>Total</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for student in subject_students %}
-                                <tr>
-                                    <td>{{ student.fname }} {{ student.lname }}</td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><span class="total-score">0</span></td>
-                                    <td>
-                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+            </section>
+            <section class="section" id="exam">
+                <div class="container exam">
+                    <h2>{{ teacher.subject_teacher }} Exam Scores</h2>
+                    <div class="cards">
+                        {% if jss1_students or jss2_students or jss3_students %}
+                        <!-- Junior Classes -->
+                        <div class="card" id="jss1-exam-card">
+                            <h3>JSS1</h3>
+                            <p>{{ jss1_students.count }} Students</p>
+                            <button onclick="showExamTable('jss1')">View</button>
+                        </div>
+                        <div class="card" id="jss2-exam-card">
+                            <h3>JSS2</h3>
+                            <p>{{ jss2_students.count }} Students</p>
+                            <button onclick="showExamTable('jss2')">View</button>
+                        </div>
+                        <div class="card" id="jss3-exam-card">
+                            <h3>JSS3</h3>
+                            <p>{{ jss3_students.count }} Students</p>
+                            <button onclick="showExamTable('jss3')">View</button>
+                        </div>
+                        {% else %}
+                        <!-- Senior Classes -->
+                        <div class="card" id="ss1-exam-card">
+                            <h3>SS1</h3>
+                            <p>{{ ss1_students.count }} Students</p>
+                            <button onclick="showExamTable('ss1')">View</button>
+                        </div>
+                        <div class="card" id="ss2-exam-card">
+                            <h3>SS2</h3>
+                            <p>{{ ss2_students.count }} Students</p>
+                            <button onclick="showExamTable('ss2')">View</button>
+                        </div>
+                        <div class="card" id="ss3-exam-card">
+                            <h3>SS3</h3>
+                            <p>{{ ss3_students.count }} Students</p>
+                            <button onclick="showExamTable('ss3')">View</button>
+                        </div>
+                        {% endif %}
                     </div>
-                    <div id="tables-container">
-                        {% for students in class_students %}
-                        <table id="table-{{ jss3 }}" class="ca-table" style="display: none;">
+
+                    <div id="exam-tables-container">
+                        {% for class_data in students_by_class %}
+                        <table id="exam-table-{{ class_data.class_name|lower }}" class="ba-exam-table"
+                            style="display: none;">
                             <thead>
                                 <tr>
                                     <th>Student Name</th>
-                                    <th>CA-1</th>
-                                    <th>CA-2</th>
-                                    <th>CA-3</th>
-                                    <th>CA-4</th>
-                                    <th>Total</th>
+                                    <th>40</th>
+                                    <th>60</th>
+                                    <th>100</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for student in subject_students %}
+                                {% for student in class_data.students %}
                                 <tr>
                                     <td>{{ student.fname }} {{ student.lname }}</td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
+                                    <td><input type="number" class="ba-score" data-max="40"
+                                            onchange="calculateExamTotal(this)"></td>
+                                    <td><input type="number" class="ba-score" data-max="60"
+                                            onchange="calculateExamTotal(this)"></td>
                                     <td><span class="total-score">0</span></td>
-                                    <td>
-                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% endfor %}
-                    </div>
-                    <div id="tables-container">
-                        {% for students in class_students %}
-                        <table id="table-{{ ss1 }}" class="ca-table" style="display: none;">
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>CA-1</th>
-                                    <th>CA-2</th>
-                                    <th>CA-3</th>
-                                    <th>CA-4</th>
-                                    <th>Total</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for student in subject_students %}
-                                <tr>
-                                    <td>{{ student.fname }} {{ student.lname }}</td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><span class="total-score">0</span></td>
-                                    <td>
-                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% endfor %}
-                    </div>
-                    <div id="tables-container">
-                        {% for students in class_students %}
-                        <table id="table-{{ ss2 }}" class="ca-table" style="display: none;">
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>CA-1</th>
-                                    <th>CA-2</th>
-                                    <th>CA-3</th>
-                                    <th>CA-4</th>
-                                    <th>Total</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for student in subject_students %}
-                                <tr>
-                                    <td>{{ student.fname }} {{ student.lname }}</td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><span class="total-score">0</span></td>
-                                    <td>
-                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% endfor %}
-                    </div>
-                    <div id="tables-container">
-                        {% for students in class_students %}
-                        <table id="table-{{ ss3 }}" class="ca-table" style="display: none;">
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>CA-1</th>
-                                    <th>CA-2</th>
-                                    <th>CA-3</th>
-                                    <th>CA-4</th>
-                                    <th>Total</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for student in subject_students %}
-                                <tr>
-                                    <td>{{ student.fname }} {{ student.lname }}</td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><input type="number" class="ca-score" data-max="10"
-                                            onchange="calculateTotal(this)"></td>
-                                    <td><span class="total-score">0</span></td>
-                                    <td>
-                                        <button class="toggle-btn" onclick="toggleRow(this)">Done</button>
-                                    </td>
+                                    <td><button class="toggle-btn" onclick="toggleRowHandler(this)">Done</button></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -474,53 +391,12 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <div id="submit-container" style="display: none;">
-                        <button onclick="submitScores()"  class="termbtn">Submit Scores</button>
+                    <div id="submit-btn">
+                        <button onclick="submitScores()" class="termbtn">Submit Scores</button>
                     </div>
 
                 </div>
-            </section>
-            <section class="section" id="exam">
-                <div class="container exam">
-                    <h2>{{ teacher.subject_teacher }} Exam</h2>
-                    <div class="cards">
-                        {% if jss1_students or jss2_students or jss3_students %}
-                        <div class="card" id="jss1-card">
-                            <h3>JSS1</h3>
-                            <p>{{ jss1_students.count }} Students</p>
-                            <button onclick="toggleInput('jss1')">View</button>
-                        </div>
-                        <div class="card" id="jss2-card">
-                            <h3>JSS2</h3>
-                            <p>{{ jss2_students.count }} Students</p>
-                            <button onclick="toggleInput('jss2')">View</button>
-                        </div>
-                        <div class="card" id="jss3-card">
-                            <h3>JSS3</h3>
-                            <p>{{ jss3_students.count }} Students</p>
-                            <button onclick="toggleInput('jss3')">View</button>
-                        </div>
-                        {% else %}
-                        <div class="card" id="ss1-card">
-                            <h3>SS1</h3>
-                            <p>{{ ss1_students.count }} Students </p>
-                            <button onclick="toggleInput('ss1')">View</button>
-                        </div>
-                        <div class="card" id="ss2-card">
-                            <h3>SS2</h3>
-                            <p>{{ ss2_students.count }} Students</p>
-                            <button onclick="toggleInput('ss2')">View</button>
-                        </div>
-                        <div class="card" id="ss3-card">
-                            <h3>SS3</h3>
-                            <p>{{ ss3_students.count }} Students</p>
-                            <button onclick="toggleInput('ss3')">View</button>
-                        </div>
-                        {% endif %}
-                    </div>
 
-
-                </div>
             </section>
             <section class="section" id="assign">
                 <div class="container assign">
@@ -712,6 +588,9 @@
 
 
 
+
+
+
             <!-- Add more sections as needed -->
 
             <!-- Style Switcher -->
@@ -743,88 +622,79 @@
 
     <!-- JavaScript -->
     <script src="{% static 'anyi/main/js/main.js' %}"></script>
+    <script src="{% static 'anyi/main/js/style.js' %}"></script>
     <script src="{% static 'anyi/main/js/styleSwitcher.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
+        function saveAttendance() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const attendanceData = [];
 
-            // Remove active class from all navbar links
-            document.querySelectorAll('.nav a').forEach(link => {
-                link.classList.remove('active');
-            });
-
-            // Show the clicked section and add active class to the navbar link
-            document.getElementById(sectionId).classList.add('active');
-            document.querySelector(`.nav a[href="#${sectionId}"]`).classList.add('active');
-        }
-
-
-
-        // Function to submit attendance and display the next term
-        function submitAttendance(term) {
-            const formId = `${term}-form`;
-            const form = document.getElementById(formId);
-            const formData = new FormData(form);
-
-            // Simulate sending data to the server (you'd replace this with an actual POST request)
-            fetch('/submit-attendance/', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token for Django
-                }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // Hide the current term
-                        document.getElementById(`${term}-section`).classList.remove('active');
-
-                        // Show the next term section
-                        if (term === 'term1') {
-                            document.getElementById('term2-section').classList.add('active');
-                        } else if (term === 'term2') {
-                            document.getElementById('term3-section').classList.add('active');
-                        } else {
-                            alert("All terms completed!");
-                        }
-                    } else {
-                        alert('Error submitting attendance. Please try again.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Something went wrong!');
+            // Iterate through all checkboxes and collect their states
+            checkboxes.forEach(checkbox => {
+                attendanceData.push({
+                    student_id: checkbox.dataset.student,
+                    week: checkbox.dataset.week,
+                    term: checkbox.dataset.term,
+                    present: checkbox.checked
                 });
+            });
+
+            try {
+                // Save the attendance data to localStorage
+                localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+                console.log("Attendance data saved to localStorage:", attendanceData); // Debugging line
+            } catch (error) {
+                console.error('Error saving attendance data to localStorage:', error);
+            }
         }
 
-        function toggleCard(classId) {
-            document.querySelectorAll('.student-list').forEach(div => div.style.display = 'none');
-            document.getElementById(classId + '-students').style.display = 'block';
+        function loadAttendance() {
+            let attendanceData = [];
+            try {
+                attendanceData = JSON.parse(localStorage.getItem('attendanceData')) || [];
+                console.log("Loaded attendance data from localStorage:", attendanceData); // Debugging line
+            } catch (error) {
+                console.error('Error loading attendance data from localStorage:', error);
+            }
+
+            // Iterate through the saved data and update the checkboxes
+            attendanceData.forEach(item => {
+                const checkbox = document.querySelector(`input[data-student="${item.student_id}"][data-week="${item.week}"][data-term="${item.term}"]`);
+                if (checkbox) {
+                    checkbox.checked = item.present;
+                    console.log(`Checkbox updated: student_id=${item.student_id}, week=${item.week}, term=${item.term}, present=${item.present}`); // Debugging line
+                } else {
+                    console.warn(`Checkbox not found: student_id=${item.student_id}, week=${item.week}, term=${item.term}`); // Debugging line
+                }
+            });
         }
 
-        function toggleInput(section) {
-            document.querySelectorAll('div[id$="-input"]').forEach(div => div.style.display = "none");
-            document.getElementById(section + "-input").style.display = "block";
+        function submitAttendance() {
+            // Simply call saveAttendance to ensure data is saved when the button is clicked
+            saveAttendance();
         }
 
-        // // Function to show the next term's section
-        // function showNextTerm(currentButtonId, nextSectionId) {
-        //     document.getElementById(currentButtonId).addEventListener("click", function () {
-        //         document.getElementById(nextSectionId).classList.add("active");
-        //         this.style.display = "none"; // Hide current button
-        //     });
-        // }
+        document.addEventListener('DOMContentLoaded', function () {
+            loadAttendance();
 
-        // // Setup buttons for each term
-        // showNextTerm("submit-term1", "term2-section");
-        // showNextTerm("submit-term2", "term3-section");
+            // Add event listener to all checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', saveAttendance);
+            });
 
-
-
+            const saveButton = document.getElementById('save-attendance');
+            if (saveButton) {
+                saveButton.addEventListener('click', function () {
+                    submitAttendance();
+                    alert('Attendance saved successfully!');
+                });
+            } else {
+                console.error('Save button with ID "save-attendance" not found.');
+            }
+        });
     </script>
 </body>
 

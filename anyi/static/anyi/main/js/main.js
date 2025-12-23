@@ -1,288 +1,480 @@
-window.addEventListener("load", function() {
-    document.querySelector(".preloader").classList.add("opacity-0");
-    setTimeout(function() {
-        document.querySelector(".preloader").style.display = "none";
-    }, 1000);
-});
-
-
-document.querySelectorAll(".showTextButton").forEach(button => {
-    button.onclick = function() {
-        const hiddenText = document.getElementById("hiddenText");
-        hiddenText.style.display = "block";
-    };
-});
-
-
-// Portfolio Filter
-const filterContainer = document.querySelector(".portfolio-filter"),
-    filterBtns = filterContainer.children,
-    totalFilterBtn = filterBtns.length,
-    portfolioItems = document.querySelectorAll(".portfolio-item"),
-    totalportfolioItem = portfolioItems.length;
-
-for (let i = 0; i < totalFilterBtn; i++) {
-    filterBtns[i].addEventListener("click", function() {
-        filterContainer.querySelector(".active").classList.remove("active");
-        this.classList.add("active");
-
-        const filterValue = this.getAttribute("data-filter");
-        for (let k = 0; k < totalportfolioItem; k++) {
-            if (filterValue === portfolioItems[k].getAttribute("data-category")) {
-                portfolioItems[k].classList.remove("hide");
-                portfolioItems[k].classList.add("show");
-            } else {
-                portfolioItems[k].classList.remove("show");
-                portfolioItems[k].classList.add("hide");
-            }
-        }
+function showSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
     });
-}
 
-// Portfolio Lightbox
-const lightbox = document.querySelector(".lightbox"),
-    lightboxImg = lightbox.querySelector(".lightbox-img"),
-    lightboxClose = lightbox.querySelector(".lightbox-close"),
-    lightboxText = lightbox.querySelector(".caption-text"),
-    lightboxCounter = lightbox.querySelector(".caption-counter");
-let itemIndex = 0;
-
-for (let i = 0; i < totalportfolioItem; i++) {
-    portfolioItems[i].addEventListener("click", function() {
-        itemIndex = i;
-        changeItem();
-        toggleLightbox();
+    // Remove active class from all navbar links
+    document.querySelectorAll('.nav a').forEach(link => {
+        link.classList.remove('active');
     });
-}
 
-function nextItem() {
-    itemIndex = (itemIndex + 1) % totalportfolioItem;
-    changeItem();
-}
-
-function previousItem() {
-    itemIndex = (itemIndex - 1 + totalportfolioItem) % totalportfolioItem;
-    changeItem();
-}
-
-function toggleLightbox() {
-    lightbox.classList.toggle("open");
-}
-
-function changeItem() {
-    const imgSrc = portfolioItems[itemIndex].querySelector(".portfolio-img img").getAttribute("src");
-    lightboxImg.src = imgSrc;
-    lightboxText.innerHTML = portfolioItems[itemIndex].querySelector("h4").innerHTML;
-    lightboxCounter.innerHTML = (itemIndex + 1) + " of " + totalportfolioItem;
-}
-
-// Close Lightbox
-lightbox.addEventListener("click", function(event) {
-    if (event.target === lightbox || event.target.classList.contains("lightbox-close")) {
-        toggleLightbox();
-    }
-});
-
-// Aside Nav
-const nav = document.querySelector(".nav"),
-    navList = nav.querySelectorAll("li"),
-    totalNavList = navList.length,
-    allSection = document.querySelectorAll(".section"),
-    totalSection = allSection.length;
-
-for (let i = 0; i < totalNavList; i++) {
-    const a = navList[i].querySelector("a");
-    a.addEventListener("click", function() {
-        removeBackSectionClass();
-
-        for (let j = 0; j < totalNavList; j++) {
-            if (navList[j].querySelector("a").classList.contains("active")) {
-                addBackSectionClass(j);
-            }
-            navList[j].querySelector("a").classList.remove("active");
-        }
-        this.classList.add("active");
-        showSection(this);
-
-        if (window.innerWidth < 1200) {
-            asideSectionTogglerBtn();
-        }
-    });
-}
-
-function removeBackSectionClass() {
-    for (let i = 0; i < totalSection; i++) {
-        allSection[i].classList.remove("active");
-    }
-}
-
-function addBackSectionClass(num) {
-    allSection[num].classList.add("back-section");
-}
-
-function showSection(element) {
-    for (let i = 0; i < totalSection; i++) {
-        allSection[i].classList.remove("active");
-    }
-    const target = element.getAttribute("href").split("#")[1];
-    document.querySelector("#" + target).classList.add("active");
-}
-
-function updateNav(element) {
-    for (let i = 0; i < totalNavList; i++) {
-        navList[i].querySelector("a").classList.remove("active");
-        const target = element.getAttribute("href").split("#")[1];
-        if (navList[i].querySelector("a").getAttribute("href").split("#")[1] === target) {
-            navList[i].querySelector("a").classList.add("active");
-        }
-    }
-}
-
-document.querySelector(".hire-me").addEventListener("click", function() {
-    const sectionIndex = this.getAttribute("data-section-index");
-    showSection(this);
-    updateNav(this);
-});
-
-const navToggleBtn = document.querySelector(".nav-toggle"),
-    aside = document.querySelector(".aside");
-
-navToggleBtn.addEventListener("click", asideSectionTogglerBtn);
-
-function asideSectionTogglerBtn() {
-    aside.classList.toggle("open");
-    navToggleBtn.classList.toggle("open");
-    for (let i = 0; i < totalSection; i++) {
-        allSection[i].classList.toggle("open");
-    }
-}
-
-function showTable() {
-    const table = document.getElementById('teacher');
-    table.classList.remove('hidden');
-}
-
-function myFunction() {
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-
-    for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-            tr[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
-        }
-    }
+    // Show the clicked section and add active class to the navbar link
+    document.getElementById(sectionId).classList.add('active');
+    document.querySelector(`.nav a[href="#${sectionId}"]`).classList.add('active');
 }
 
 
 
-// test Section
-
-let currentTerm = 1;
-
-    function showTable(className) {
-        // Hide all tables
-        document.querySelectorAll('.ca-table').forEach((table) => table.style.display = 'none');
-        // Show the selected class table
-        document.getElementById(`table-${className}`).style.display = 'block';
-        // Display term navigation
-        document.getElementById('prevTerm').style.display = currentTerm > 1 ? 'inline' : 'none';
-        document.getElementById('nextTerm').style.display = currentTerm < 3 ? 'inline' : 'none';
-        document.getElementById('submit-container').style.display = 'block';
-    }
-
-    function toggleTerm(direction) {
-        currentTerm += direction;
-        // Show/hide term buttons
-        document.getElementById('prevTerm').style.display = currentTerm > 1 ? 'inline' : 'none';
-        document.getElementById('nextTerm').style.display = currentTerm < 3 ? 'inline' : 'none';
-    }
-
-    function calculateTotal(input) {
-        const row = input.closest('tr');
-        const scores = row.querySelectorAll('.ca-score');
-        let total = 0;
-        scores.forEach((score) => {
-            total += Math.min(Number(score.value) || 0, Number(score.dataset.max));
-        });
-        const totalCell = row.querySelector('.total-score');
-        totalCell.textContent = Math.min(total, 40);
-    }
-
-    function submitScores() {
-        // Collect data and send via AJAX
-        const data = [];
-        document.querySelectorAll('.ca-table').forEach((table) => {
-            if (table.style.display !== 'none') {
-                table.querySelectorAll('tr').forEach((row) => {
-                    const studentName = row.cells[0].textContent;
-                    const scores = Array.from(row.querySelectorAll('.ca-score')).map((input) => input.value || 0);
-                    const total = row.querySelector('.total-score').textContent;
-                    data.push({ studentName, scores, total, term: currentTerm });
-                });
-            }
-        });
-
-        console.log('Submitting data:', data);
-        // TODO: Send data to the server via AJAX
-    }
 
 
-    // Show Table Based on Selected Class
+function toggleCard(classId) {
+    document.querySelectorAll('.student-list').forEach(div => div.style.display = 'none');
+    document.getElementById(classId + '-students').style.display = 'block';
+}
+
+function toggleInput(section) {
+    document.querySelectorAll('div[id$="-input"]').forEach(div => div.style.display = "none");
+    document.getElementById(section + "-input").style.display = "block";
+}
+
+
+
+// Test Table
+
+// Function to show the selected class table
 function showTable(className) {
-    const tables = document.querySelectorAll('.ca-table');
-    tables.forEach((table) => {
-        table.style.display = table.id === `table-${className}` ? 'table' : 'none';
-    });
+    // Hide all tables
+    document.querySelectorAll('.ca-table').forEach((table) => table.style.display = 'none');
 
-    // Show submit button
-    document.getElementById('submit-container').style.display = 'block';
+    // Show the selected class table
+    const table = document.getElementById(`table-${className}`);
+    if (table) {
+        table.style.display = 'table';
+        document.getElementById('submit-container').style.display = 'block';
+    } else {
+        alert(`Table for class '${className}' not found.`);
+    }
 }
 
-// Calculate Total CA Score
-function calculateTotal(input) {
-    const row = input.closest('tr');
-    const scores = row.querySelectorAll('.ca-score');
-    const totalSpan = row.querySelector('.total-score');
-    let total = 0;
 
-    scores.forEach((score) => {
-        const value = parseInt(score.value) || 0;
-        if (value > 10) {
-            alert('Scores cannot exceed 10!');
-            score.value = 0;
-        } else {
-            total += value;
-        }
-    });
+// function toggleRow(button) {
+//     const row = button.closest('tr');
+//     const inputs = row.querySelectorAll('.ca-score');
 
-    if (total > 40) {
-        alert('Total cannot exceed 40!');
-        total = 0;
+//     if (button.innerText === "Done") {
+//         // Disable inputs and change button text to "Edit"
+//         inputs.forEach((input) => input.setAttribute("disabled", "true"));
+//         button.innerText = "Edit";
+//     } else {
+//         // Enable inputs and change button text to "Done"
+//         inputs.forEach((input) => input.removeAttribute("disabled"));
+//         button.innerText = "Done";
+//     }
+// }
+
+// Function to toggle between Done and Edit mode
+function toggleRowHandler(button) {
+    // Locate the parent row
+    const row = button.closest('tr');
+    if (!row) {
+        console.error('No parent row found for the button');
+        return;
     }
 
-    totalSpan.textContent = total;
-}
-
-// Toggle Done/Edit Mode
-function toggleRow(button) {
-    const row = button.closest('tr');
+    // Locate all inputs in the row with the 'ca-score' class
     const inputs = row.querySelectorAll('.ca-score');
-    const isDone = button.textContent === 'Done';
+    if (!inputs.length) {
+        console.error('No input fields found in the row');
+        return;
+    }
 
+    // Determine the current state (Done or Edit)
+    const isDone = button.textContent.trim().toLowerCase() === 'done';
+
+    // Toggle 'disabled' property for each input
     inputs.forEach((input) => {
         input.disabled = isDone;
     });
 
-    button.textContent = isDone ? 'Edit' : 'Done';
+    // Update the button's text
+    button.textContent = isDone ? 'Done' : 'Edit';
 }
 
-// Submit Scores (Stub Function)
-function submitScores() {
-    alert('Scores submitted successfully!');
-    // Implement your AJAX or form submission logic here
+// Event listener for handling the toggle button click
+document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('toggle-btn')) {
+        toggleRowHandler(event.target); // Call the function with the button as the argument
+    }
+});
+
+// Function to calculate the total score in a row
+function calculateTotal(input) {
+    const row = input.closest('tr');
+    const scores = row.querySelectorAll('.ca-score');
+    let total = 0;
+
+    scores.forEach((score) => {
+        const max = parseInt(score.dataset.max) || 0;
+        let value = parseInt(score.value) || 0;
+
+        if (isNaN(value) || value < 0) {
+            alert('Please enter a valid score.');
+            score.value = '';
+            value = 0;
+        }
+
+        if (value > max) {
+            alert(`Score cannot exceed ${max}!`);
+            score.value = max;
+            value = max;
+        }
+        total += value;
+    });
+
+    if (total > 40) {
+        alert('Total cannot exceed 40!');
+        total = 40;
+    }
+
+    const totalCell = row.querySelector('.total-score');
+    totalCell.textContent = total;
+}
+
+// Function to calculate the total score in a row
+function calculateTotal(input) {
+    const row = input.closest('tr');
+    const scores = row.querySelectorAll('.ca-score');
+    let total = 0;
+
+    scores.forEach((score) => {
+        const max = parseInt(score.dataset.max) || 0;
+        let value = parseInt(score.value) || 0;
+
+        if (isNaN(value) || value < 0) {
+            alert('Please enter a valid score.');
+            score.value = '';
+            value = 0;
+        }
+
+        if (value > max) {
+            alert(`Score cannot exceed ${max}!`);
+            score.value = max;
+            value = max;
+        }
+        total += value;
+    });
+
+    if (total > 40) {
+        alert('Total cannot exceed 40!');
+        total = 40;
+    }
+
+    const totalCell = row.querySelector('.total-score');
+    totalCell.textContent = total;
+}
+
+// Function to calculate total scores from the test page
+function calculateTestTotal(input) {
+    const row = input.closest('tr');
+    const inputs = row.querySelectorAll('input.ca-score');
+    let total = 0;
+
+    inputs.forEach((input) => {
+        const max = parseInt(input.dataset.max) || 0;
+        let value = parseInt(input.value) || 0;
+
+        if (isNaN(value) || value < 0) {
+            alert('Please enter a valid score.');
+            input.value = '';
+            value = 0;
+        }
+
+        if (value > max) {
+            alert(`The value cannot exceed ${max}.`);
+            input.value = max;
+            value = max;
+        }
+        total += value;
+    });
+
+    // Update total score
+    const totalCell = row.querySelector('.total-score');
+    totalCell.textContent = Math.min(total, 40);
+}
+
+// Function to submit test scores to the exam table
+function submitTestScores() {
+    const testScores = {};
+
+    // Collect test scores
+    document.querySelectorAll('.ca-table tbody tr').forEach((row) => {
+        const studentName = row.querySelector('td:first-child').textContent.trim();
+        const totalScore = parseFloat(row.querySelector('.total-score').textContent) || 0;
+        if (totalScore > 0) {
+            testScores[studentName] = totalScore;
+        }
+    });
+
+    if (Object.keys(testScores).length === 0) {
+        alert('No scores to submit.');
+        return;
+    }
+
+    // Update the exam table
+    document.querySelectorAll('.ba-exam-table tbody tr').forEach((row) => {
+        const studentName = row.querySelector('td:first-child').textContent.trim();
+        if (testScores.hasOwnProperty(studentName)) {
+            const examInput = row.querySelector('input[data-max="40"]');
+            if (examInput) {
+                examInput.value = testScores[studentName];
+                examInput.setAttribute('readonly', 'true'); // Lock input
+            }
+        }
+    });
+
+    alert('Test scores submitted successfully!');
+}
+
+// Event listeners for dynamic content
+document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('input', (event) => {
+        if (event.target.classList.contains('ca-score')) {
+            calculateTotal(event.target);
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (event.target.classList.contains('toggle-btn')) {
+            toggleRow(event.target);
+        }
+    });
+
+    const submitButton = document.getElementById('submit-scores');
+    if (submitButton) {
+        submitButton.addEventListener('click', submitTestScores);
+    }
+});
+
+
+
+
+
+// let currentTermIndex = 0; // Assuming terms are indexed as 0 = Term 1, 1 = Term 2, 2 = Term 3
+// const terms = ["First Term", "Second Term", "Third Term"]; // Example terms
+
+// function toggleTerm(direction) {
+//     // Update the current term index
+//     currentTermIndex += direction;
+
+//     // Ensure index stays within bounds
+//     if (currentTermIndex < 0) currentTermIndex = 0;
+//     if (currentTermIndex >= terms.length) currentTermIndex = terms.length - 1;
+
+//     // Display the current term
+//     alert(`Navigated to: ${terms[currentTermIndex]}`);
+
+//     // Update button visibility
+//     document.getElementById("prevTerm").style.display = currentTermIndex === 0 ? "none" : "inline-block";
+//     document.getElementById("nextTerm").style.display = currentTermIndex === terms.length - 1 ? "none" : "inline-block";
+// }
+
+// // Initialize the button states
+// window.onload = () => {
+//     toggleTerm(0); // Run initially to set up visibility
+// };
+
+
+
+function showExamTable(className) {
+    console.log(`Attempting to show exam table for class: ${className}`);
+
+    // Hide all exam tables first
+    document.querySelectorAll('.ba-exam-table').forEach((table) => {
+        table.style.display = 'none';
+    });
+
+    // Get the specific exam table
+    const selectedExamTable = document.getElementById(`exam-table-${className}`);
+    if (selectedExamTable) {
+        selectedExamTable.style.display = 'table';
+        document.getElementById('submit-btn').style.display = 'block';
+    } else {
+        console.error(`Exam table for class '${className}' not found.`);
+    }
+}
+
+function calculateExamTotal(input) {
+    const max = parseFloat(input.dataset.max) || 0;
+    let value = parseFloat(input.value) || 0;
+
+    // Limit the input value to the maximum allowed
+    if (value > max) {
+        alert(`The value cannot exceed ${max}.`);
+        input.value = max; // Reset to max
+        value = max;
+    }
+
+    const row = input.closest('tr');
+    const inputs = row.querySelectorAll('input.ba-score');
+    let total = 0;
+
+    inputs.forEach((input) => {
+        const maxInput = parseFloat(input.dataset.max) || 0;
+        const inputValue = parseFloat(input.value) || 0;
+        total += inputValue > maxInput ? maxInput : inputValue;
+    });
+
+    // Update total score
+    row.querySelector('.total-score').innerText = total.toFixed(2);
+}
+
+function toggleRow(button) {
+    const row = button.closest('tr');
+    const inputs = row.querySelectorAll('input.ba-score');
+
+    if (button.innerText === "Done") {
+        // Disable inputs and change button text to "Edit"
+        inputs.forEach((input) => input.setAttribute("disabled", "true"));
+        button.innerText = "Edit";
+    } else {
+        // Enable inputs and change button text to "Done"
+        inputs.forEach((input) => input.removeAttribute("disabled"));
+        button.innerText = "Done";
+    }
+}
+
+// // Function to show the next term's section
+// function showNextTerm(currentButtonId, nextSectionId) {
+//     document.getElementById(currentButtonId).addEventListener("click", function () {
+//         document.getElementById(nextSectionId).classList.add("active");
+//         this.style.display = "none"; // Hide current button
+//     });
+// }
+
+// // Setup buttons for each term
+// showNextTerm("submit-term1", "term2-section");
+// showNextTerm("submit-term2", "term3-section");
+
+
+
+// Attendance and test scores //
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     fetch('/api/get-data?class_name=JSS1')
+//         .then(response => response.json())
+//         .then(data => {
+//             populateAttendance(data.attendance);
+//             populateTestScores(data.test_scores);
+//         });
+// });
+
+// function populateAttendance(attendance) {
+//     attendance.forEach(record => {
+//         const row = document.querySelector(`#attendance-row-${record.student_id}`);
+//         if (row) {
+//             row.querySelector('.status').textContent = record.status;
+//         }
+//     });
+// }
+
+// function populateTestScores(scores) {
+//     scores.forEach(score => {
+//         const row = document.querySelector(`#score-row-${score.student_id}`);
+//         if (row) {
+//             row.querySelector('.test-score').value = score.test_score;
+//             row.querySelector('.exam-score').value = score.exam_score;
+//         }
+//     });
+// }
+// // Save Data  for Atten and Test //
+
+// function saveData() {
+//     const attendance = [];
+//     document.querySelectorAll('.attendance-row').forEach(row => {
+//         attendance.push({
+//             student_id: row.dataset.studentId,
+//             status: row.querySelector('.status').textContent
+//         });
+//     });
+
+//     const scores = [];
+//     document.querySelectorAll('.score-row').forEach(row => {
+//         scores.push({
+//             student_id: row.dataset.studentId,
+//             test_score: row.querySelector('.test-score').value,
+//             exam_score: row.querySelector('.exam-score').value
+//         });
+//     });
+
+//     fetch('/api/save-data', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ attendance, scores })
+//     }).then(response => response.json())
+//         .then(data => {
+//             if (data.success) alert('Data saved successfully!');
+//         });
+// }
+
+
+// Attendance Js //
+
+document.addEventListener('DOMContentLoaded', function () {
+    loadAttendance();
+
+    // Add event listener to all checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', debounce(saveAttendance, 200));
+    });
+
+    document.getElementById('save-attendance').addEventListener('click', function () {
+        submitAttendance();
+        alert('Attendance saved successfully!');
+    });
+});
+
+function saveAttendance() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const attendanceData = [];
+
+    checkboxes.forEach(checkbox => {
+        attendanceData.push({
+            student_id: checkbox.dataset.student,
+            week: checkbox.dataset.week,
+            term: checkbox.dataset.term,
+            present: checkbox.checked
+        });
+    });
+
+    // Save the attendance data to localStorage
+    localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+    console.log("Attendance data saved to localStorage:", attendanceData); // Debugging line
+}
+
+function loadAttendance() {
+    const attendanceData = JSON.parse(localStorage.getItem('attendanceData')) || [];
+    console.log("Loaded attendance data from localStorage:", attendanceData); // Debugging line
+
+    attendanceData.forEach(item => {
+        const checkbox = document.querySelector(`input[data-student="${item.student_id}"][data-week="${item.week}"][data-term="${item.term}"]`);
+        if (checkbox) {
+            checkbox.checked = item.present;
+            // Force a re-render by creating a new element and replacing the old one
+            const newCheckbox = checkbox.cloneNode(true);
+            checkbox.parentNode.replaceChild(newCheckbox, checkbox);
+            console.log(`Checkbox found and updated: student_id=${item.student_id}, week=${item.week}, term=${item.term}, present=${item.present}`); // Debugging line
+        } else {
+            console.warn(`Checkbox not found: student_id=${item.student_id}, week=${item.week}, term=${item.term}`); // Debugging line
+        }
+    });
+}
+
+function submitAttendance() {
+    // Simply call saveAttendance to ensure data is saved when the button is clicked
+    saveAttendance();
+}
+
+// Debounce function to limit how often a function can be executed
+function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
 }
